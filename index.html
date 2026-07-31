@@ -243,7 +243,7 @@ body.dark-theme .net-btn.active { background: rgba(0, 230, 118, 0.05); }
 .lang-toggle button.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 4px 10px var(--accent-shadow); }
 
 .theme-switch { width: 60px; height: 34px; background: var(--card-border); border-radius: 30px; position: relative; cursor: pointer; transition: 0.3s; }
-.theme-switch .thumb { width: 26px; height: 26px; background: #fff; border-radius: 50%; position: absolute; top: 4px; left: 4px; transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: center; color: #1C1E21; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.theme-switch .thumb { width: 26px; height: 26px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 4px; transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1); display: flex; align-items: center; justify-content: center; color: #1C1E21; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
 
 .share-btn { width: 100%; padding: 18px; border-radius: 18px; border: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; color: #fff; transition: 0.2s; }
@@ -262,13 +262,14 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
 }
 #notification.show { top: 30px; }
 
-.alert-msg { margin-top: 15px; font-weight: 600; font-size: 14px; text-align: center; color: var(--danger); }
+.alert-msg { margin-top: 15px; font-weight: 600; font-size: 14px; text-align: center; color: var(--danger); display: none;}
+.alert-msg.show { display: block; animation: enterPage 0.3s ease; }
 
 /* YÜKLƏNMƏ EKRANI */
 #loader {
   position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
   background: var(--bg-color); display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 99999; transition: opacity 0.5s;
+  z-index: 99999; transition: opacity 0.5s ease;
 }
 .loader-brand { font-size: 40px; font-weight: 900; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; animation: pulse 2s infinite alternate; }
 @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
@@ -284,7 +285,6 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
   <div class="loader-text" id="loaderText">Yüklənir...</div>
 </div>
 
-<!-- BİLDİRİŞ EKRANI -->
 <div id="notification">
   <i data-lucide="info"></i>
   <span id="notifText"></span>
@@ -468,7 +468,7 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
 </div>
 
 <script>
-// İLKİN QURULUM VƏ DƏYİŞƏNLƏR
+// --- TƏMƏL FUNKSİYALAR VƏ DƏYİŞƏNLƏR ---
 function sGet(k, d=0){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch{ return d; } }
 function sSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 
@@ -498,13 +498,13 @@ const KEYS = {
 
 const REWARD = 0.002;
 const MAX_ADS = 50;
-const FEE_PCT = 0.05;
 const MIN_WITHDRAW = 5;
+const FEE_PCT = 0.05;
 const refLink = `https://t.me/manatplaybot?startapp=${refId}`;
 
 let bal = parseFloat(sGet(KEYS.bal, 0.00));
 let cnt = parseInt(sGet(KEYS.adsCnt, 0));
-let withdrawHistory = sGet(KEYS.hist, []);
+let historyArr = sGet(KEYS.hist, []);
 let totAds = parseInt(sGet(KEYS.totAds, 0));
 let totEarn = parseFloat(sGet(KEYS.totEarn, 0.00));
 
@@ -525,158 +525,137 @@ const methods = [
     { id: 'usdt', name: 'USDT', icon: 'https://i.postimg.cc/8kmSsGyz/XTVCUSDT-600-(1).png' }
 ];
 
-let selectedMethod = '';
-let selectedNet = '';
-
-// DİL PAKETİ (i18n)
 const i18n = {
-  az: {
-    loader: "Yüklənir...",
-    balance: "Ümumi Balans",
-    ad_title: "Pul Qazan",
-    ad_desc: "Hər izlədiyiniz reklam üçün <strong id='adRewardTxt'>0.002 ₼</strong> qazanın.",
-    watched: "İzlənib",
-    limit: "Limit",
-    progress: "İrəliləyiş:",
-    watch_btn: "Reklam İzlə",
-    watching: "İzlənir...",
-    limit_reached: "Limit Doldu",
-    tasks_empty_title: "Tezliklə!",
-    tasks_empty_desc: "Bu bölmə üzərində işləyirik. Çox yaxında burada yeni və qazanc dolu tapşırıqlar olacaq. Bizi izləməyə davam edin!",
-    withdraw_method: "Çıxarış Üsulu",
-    min_amount: "Min",
-    back: "Geri Qayıt",
-    enter_details: "Məlumatları daxil edin",
-    fee: "Şəbəkə haqqı (5%):",
-    total_receive: "Yekun məbləğ:",
-    confirm: "Təsdiqlə",
-    history: "Tarixçə",
-    history_empty: "Tarixçə boşdur.",
-    status_pending: "Gözləyir",
-    stats: "Statistika",
-    stat_watched: "İzləndi",
-    stat_earned: "Qazanıldı",
-    settings: "Ayarlar",
-    lang: "Dil",
-    theme: "Tema",
-    invite: "Dostlarını Dəvət Et",
-    copy: "Linki Kopyala",
-    wp: "WhatsApp",
-    tg: "Telegram",
-    menu_settings: "Ayarlar",
-    menu_tasks: "Tapşırıqlar",
-    menu_home: "Ana Səhifə",
-    menu_wallet: "Cüzdan",
-    menu_profile: "Profil",
-    msg_copied: "Link kopyalandı!",
-    msg_limit: "Günlük limitə çatdınız!",
-    msg_reward: "Təbriklər! Qazandınız:",
-    err_method: "Çıxarış üsulunu seçin.",
-    err_network: "Zəhmət olmasa şəbəkə seçin.",
-    err_card: "Kart nömrəsi 16 rəqəm olmalıdır.",
-    err_phone: "Nömrə tam 10 rəqəm olmalıdır.",
-    err_usdt: "USDT adresi yanlışdır.",
-    err_amount: "Düzgün məbləğ daxil edin.",
-    err_min: "Minimum çıxarış",
-    err_bal: "Balans kifayət deyil.",
-    success_withdraw: "Tələbiniz qəbul edildi!"
-  },
-  tr: {
-    loader: "Yükleniyor...",
-    balance: "Toplam Bakiye",
-    ad_title: "Para Kazan",
-    ad_desc: "Her izlediğiniz reklam için <strong id='adRewardTxt'>0.052 TL</strong> kazanın.",
-    watched: "İzlendi",
-    limit: "Limit",
-    progress: "İlerleme:",
-    watch_btn: "Reklam İzle",
-    watching: "İzleniyor...",
-    limit_reached: "Limit Doldu",
-    tasks_empty_title: "Yakında!",
-    tasks_empty_desc: "Bu bölüm üzerinde çalışıyoruz. Çok yakında burada yeni ve kazançlı görevler olacak. Bizi takip etmeye devam edin!",
-    withdraw_method: "Çekim Yöntemi",
-    min_amount: "Min",
-    back: "Geri Dön",
-    enter_details: "Bilgileri girin",
-    fee: "Ağ ücreti (5%):",
-    total_receive: "Net Miktar:",
-    confirm: "Onayla",
-    history: "Geçmiş",
-    history_empty: "Geçmiş boş.",
-    status_pending: "Bekliyor",
-    stats: "İstatistikler",
-    stat_watched: "İzlendi",
-    stat_earned: "Kazanıldı",
-    settings: "Ayarlar",
-    lang: "Dil",
-    theme: "Tema",
-    invite: "Arkadaşlarını Davet Et",
-    copy: "Linki Kopyala",
-    wp: "WhatsApp",
-    tg: "Telegram",
-    menu_settings: "Ayarlar",
-    menu_tasks: "Görevler",
-    menu_home: "Ana Sayfa",
-    menu_wallet: "Cüzdan",
-    menu_profile: "Profil",
-    msg_copied: "Link kopyalandı!",
-    msg_limit: "Günlük limite ulaştınız!",
-    msg_reward: "Tebrikler! Kazandınız:",
-    err_method: "Çekim yöntemi seçin.",
-    err_network: "Lütfen ağ seçin.",
-    err_card: "Kart numarası 16 rakam olmalıdır.",
-    err_phone: "Numara tam 10 rakam olmalıdır.",
-    err_usdt: "USDT adresi yanlış.",
-    err_amount: "Geçerli bir miktar girin.",
-    err_min: "Minimum çekim",
-    err_bal: "Bakiye yetersiz.",
-    success_withdraw: "Talebiniz alındı!"
-  }
+    az: {
+        balance: "Ümumi Balans",
+        ad_title: "Pul Qazan",
+        ad_desc: "Hər izlədiyiniz reklam üçün <strong id='adRewardTxt' style='color:var(--accent);'>0.002 ₼</strong> qazanın.",
+        watched: "İzlənib",
+        limit: "Limit",
+        progress: "İrəliləyiş:",
+        watch_btn: "Reklam İzlə",
+        tasks_empty_title: "Tezliklə!",
+        tasks_empty_desc: "Bu bölmə üzərində işləyirik. Çox yaxında burada yeni və qazanc dolu tapşırıqlar olacaq. Bizi izləməyə davam edin!",
+        withdraw_method: "Çıxarış Üsulu",
+        back: "Geri Qayıt",
+        enter_details: "Məlumatları daxil edin",
+        fee: "Şəbəkə haqqı (5%):",
+        total_receive: "Yekun məbləğ:",
+        confirm: "Təsdiqlə və Çıxar",
+        history: "Tarixçə",
+        stats: "Statistika",
+        stat_watched: "İzləndi",
+        stat_earned: "Qazanıldı",
+        settings: "Ayarlar",
+        lang: "Dil",
+        theme: "Tema",
+        invite: "Dostlarını Dəvət Et",
+        copy: "Linki Kopyala",
+        wp: "WhatsApp",
+        tg: "Telegram",
+        menu_settings: "Ayarlar",
+        menu_tasks: "Tapşırıqlar",
+        menu_home: "Ana Səhifə",
+        menu_wallet: "Cüzdan",
+        menu_profile: "Profil",
+        err_method: "Çıxarış üsulunu seçin!",
+        err_network: "Ağı seçin!",
+        err_bank: "Kart nömrəsi 16 rəqəm olmalıdır!",
+        err_phone: "Nömrə tam 10 rəqəm olmalıdır!",
+        err_usdt: "Adresi düzgün daxil edin!",
+        err_amount: "Məbləği düzgün daxil edin!",
+        err_min: "Minimum çıxarış: ",
+        err_bal: "Balansınızda kifayət qədər vəsait yoxdur!",
+        success_withdraw: "Çıxarış tələbi uğurla göndərildi!",
+        msg_copied: "✅ Link kopyalandı!",
+        msg_limit: "📣 Günlük limitə çatdınız!",
+        watching_ad: "İzlənir...",
+        status_pending: "Gözləyir",
+        min_text: "Min: ",
+        loading_text: "Yüklənir..."
+    },
+    tr: {
+        balance: "Toplam Bakiye",
+        ad_title: "Para Kazan",
+        ad_desc: "Her izlediğiniz reklam için <strong id='adRewardTxt' style='color:var(--accent);'>0.0528 TL</strong> kazanın.",
+        watched: "İzlendi",
+        limit: "Limit",
+        progress: "İlerleme:",
+        watch_btn: "Reklam İzle",
+        tasks_empty_title: "Yakında!",
+        tasks_empty_desc: "Bu bölüm üzerinde çalışıyoruz. Çok yakında burada yeni görevler olacak. Bizi takipte kalın!",
+        withdraw_method: "Çekim Yöntemi",
+        back: "Geri Dön",
+        enter_details: "Bilgileri girin",
+        fee: "Ağ ücreti (5%):",
+        total_receive: "Sonuç:",
+        confirm: "Onayla ve Çek",
+        history: "Geçmiş",
+        stats: "İstatistikler",
+        stat_watched: "İzlendi",
+        stat_earned: "Kazanıldı",
+        settings: "Ayarlar",
+        lang: "Dil",
+        theme: "Tema",
+        invite: "Arkadaşlarını Davet Et",
+        copy: "Kopyala",
+        wp: "WhatsApp",
+        tg: "Telegram",
+        menu_settings: "Ayarlar",
+        menu_tasks: "Görevler",
+        menu_home: "Ana Sayfa",
+        menu_wallet: "Cüzdan",
+        menu_profile: "Profil",
+        err_method: "Çekim yöntemini seçin!",
+        err_network: "Ağı seçin!",
+        err_bank: "Kart numarası 16 rakam olmalıdır!",
+        err_phone: "Numara 10 rakam olmalıdır!",
+        err_usdt: "Adresi doğru girin!",
+        err_amount: "Miktarı doğru girin!",
+        err_min: "Minimum çekim: ",
+        err_bal: "Bakiyeniz yetersiz!",
+        success_withdraw: "Çekim talebi gönderildi!",
+        msg_copied: "✅ Bağlantı kopyalandı!",
+        msg_limit: "📣 Günlük limite ulaştınız!",
+        watching_ad: "İzleniyor...",
+        status_pending: "Bekliyor",
+        min_text: "Min: ",
+        loading_text: "Yükleniyor..."
+    }
 };
 
-// YÜKLƏNMƏ EKRANININ SİLİNMƏSİ (BU HİSSƏ ƏLAVƏ EDİLDİ)
-window.addEventListener('load', () => {
+// --- BAŞLANĞIC EKRANINI GİZLƏTMƏK VƏ İLKİN QURULUM ---
+window.addEventListener('DOMContentLoaded', () => {
+    // LOADER FIXI
     setTimeout(() => {
         const loader = document.getElementById('loader');
         if (loader) {
             loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
+            setTimeout(() => loader.style.display = 'none', 500);
         }
-    }, 1200); // Tətbiqə 1.2 saniyə yüklənmə vaxtı verilir
+    }, 1200);
+    
     initApp();
 });
 
 function initApp() {
     checkDailyReset();
     applyTheme();
-    updateTexts();
+    setLangUI();
+    updateUI();
     loadProfile();
     renderMethods();
     renderHistory();
     lucide.createIcons();
-    updateUI();
 }
 
-function checkDailyReset() {
-    const today = new Date().toLocaleDateString('en-GB'); 
-    const savedDate = localStorage.getItem(KEYS.date);
-    if (savedDate !== today) {
-        cnt = 0;
-        sSet(KEYS.adsCnt, cnt);
-        localStorage.setItem(KEYS.date, today);
-    }
-}
-
-// UI YENİLƏMƏLƏRİ VƏ FORMATLAMA
-function fC(val, isNumber = false) {
+function fC(val, forceNumberOnly = false) {
     if(lang === 'tr') {
         let v = (parseFloat(val) * 26.4).toFixed(4).replace(/\.?0+$/, '');
-        return isNumber ? v : v + ' TL';
+        return forceNumberOnly ? v : v;
     }
     let v2 = parseFloat(val).toFixed(3);
-    return isNumber ? v2 : v2 + ' ₼';
+    return forceNumberOnly ? v2 : v2;
 }
 
 function updateUI() {
@@ -685,95 +664,79 @@ function updateUI() {
     
     document.getElementById('adCount').textContent = cnt;
     document.getElementById('adProgress').style.width = (cnt / MAX_ADS * 100) + '%';
-    document.getElementById('adProgressTxt').textContent = `${cnt}/${MAX_ADS}`;
+    document.getElementById('adProgressTxt').innerHTML = `<span style="color:var(--text-main); font-weight:800;">${cnt}</span>/${MAX_ADS}`;
     
     document.getElementById('totalAdsStat').textContent = totAds;
-    document.getElementById('totalEarnedStat').textContent = fC(totEarn, true);
+    document.getElementById('totalEarnedStat').textContent = fC(totEarn, true) + (lang === 'tr' ? ' TL' : ' ₼');
 
-    const btn = document.getElementById('watchAdBtn');
+    const adBtn = document.getElementById('watchAdBtn');
+    const adSpan = adBtn.querySelector('span');
+    const adIcon = adBtn.querySelector('i');
+    const adAlert = document.getElementById('adAlert');
+    
     if (cnt >= MAX_ADS) {
-        btn.classList.add('waiting');
-        btn.disabled = true;
-        btn.innerHTML = `<i data-lucide="lock"></i> <span>${i18n[lang].limit_reached}</span>`;
+        adBtn.classList.add('waiting'); adBtn.disabled = true;
+        adSpan.textContent = i18n[lang].limit;
+        adIcon.setAttribute('data-lucide', 'lock');
+        adAlert.textContent = i18n[lang].msg_limit;
+        adAlert.classList.add('show');
+    } else if (adRunning) {
+        adBtn.classList.add('waiting'); adBtn.disabled = true;
+        adSpan.textContent = i18n[lang].watching_ad;
+        adIcon.setAttribute('data-lucide', 'loader');
+        adAlert.classList.remove('show');
     } else {
-        btn.classList.remove('waiting');
-        btn.disabled = false;
-        btn.innerHTML = `<i data-lucide="play-circle"></i> <span>${i18n[lang].watch_btn}</span>`;
+        adBtn.classList.remove('waiting'); adBtn.disabled = false;
+        adSpan.textContent = i18n[lang].watch_btn;
+        adIcon.setAttribute('data-lucide', 'play-circle');
+        adAlert.classList.remove('show');
     }
+    
     lucide.createIcons();
-
+    
     sSet(KEYS.bal, bal);
     sSet(KEYS.adsCnt, cnt);
     sSet(KEYS.totAds, totAds);
     sSet(KEYS.totEarn, totEarn);
+    sSet(KEYS.hist, historyArr);
 }
 
-// BİLDİRİŞ (NOTIFICATIONS)
-function showNotification(msg) {
-    const notif = document.getElementById('notification');
-    document.getElementById('notifText').textContent = msg;
-    notif.classList.add('show');
-    setTimeout(() => notif.classList.remove('show'), 3000);
+function checkDailyReset() {
+    const today = new Date().toLocaleDateString('en-GB');
+    const lastDate = localStorage.getItem(KEYS.date);
+    if(lastDate !== today) {
+        cnt = 0;
+        localStorage.setItem(KEYS.date, today);
+        sSet(KEYS.adsCnt, 0);
+    }
 }
 
-function alertMsg(elementId, msg) {
-    const el = document.getElementById(elementId);
-    el.textContent = msg;
-    setTimeout(() => el.textContent = '', 3500);
+// --- DİL VƏ TEMA ---
+function changeLang(l) {
+    if(lang === l) return;
+    lang = l;
+    sSet(KEYS.lang, l);
+    showWalletMethods();
+    setLangUI();
+    renderMethods();
+    renderHistory();
 }
 
-// REKLAM FUNKSİYALARI
-function watchAd() {
-    if (cnt >= MAX_ADS || adRunning) return;
-    adRunning = true;
-    const btn = document.getElementById('watchAdBtn');
-    btn.classList.add('waiting');
-    btn.innerHTML = `<i data-lucide="loader"></i> <span>${i18n[lang].watching}</span>`;
-    lucide.createIcons();
+function setLangUI() {
+    document.getElementById('langAzBtn').classList.toggle('active', lang === 'az');
+    document.getElementById('langTrBtn').classList.toggle('active', lang === 'tr');
     
-    try {
-        if (!adManager && window.Adsgram) {
-            adManager = window.Adsgram.init({ blockId: "int-28369" });
-        }
-        
-        if (adManager) {
-            adManager.show().then(() => { rewardUser(); }).catch(() => { resetAdBtn(); });
-        } else {
-            // Test mode if Adsgram is blocked or not available
-            setTimeout(() => { rewardUser(); }, 1500);
-        }
-    } catch(e) {
-        resetAdBtn();
-    }
-}
-
-function rewardUser() {
-    bal += REWARD;
-    cnt++;
-    totAds++;
-    totEarn += REWARD;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(i18n[lang][key]) el.innerHTML = i18n[lang][key];
+    });
+    
+    const adRew = document.getElementById('adRewardTxt');
+    if(adRew) adRew.textContent = fC(REWARD, true) + (lang === 'tr' ? ' TL' : ' ₼');
+    
+    document.getElementById('loaderText').textContent = i18n[lang].loading_text;
+    
     updateUI();
-    showNotification(`${i18n[lang].msg_reward} ${fC(REWARD)}`);
-    adRunning = false;
-}
-
-function resetAdBtn() {
-    adRunning = false;
-    updateUI();
-}
-
-// DİL VƏ TEMA (TƏNZİMLƏMƏLƏR)
-function applyTheme() {
-    if (isDark) {
-        document.body.classList.add('dark-theme');
-        document.getElementById('themeThumb').innerHTML = '<i data-lucide="moon" style="width:16px;height:16px;color:#fff"></i>';
-        document.getElementById('themeThumb').style.background = '#18191C';
-    } else {
-        document.body.classList.remove('dark-theme');
-        document.getElementById('themeThumb').innerHTML = '<i data-lucide="sun" style="width:16px;height:16px;color:#1C1E21"></i>';
-        document.getElementById('themeThumb').style.background = '#fff';
-    }
-    lucide.createIcons();
 }
 
 function toggleTheme() {
@@ -782,48 +745,215 @@ function toggleTheme() {
     applyTheme();
 }
 
-function changeLang(l) {
-    lang = l;
-    sSet(KEYS.lang, l);
-    document.getElementById('langAzBtn').classList.toggle('active', l === 'az');
-    document.getElementById('langTrBtn').classList.toggle('active', l === 'tr');
-    updateTexts();
-    renderMethods();
-    updateUI();
+function applyTheme() {
+    if (isDark) {
+        document.body.classList.add('dark-theme');
+        document.getElementById('themeThumb').innerHTML = '<i data-lucide="moon" style="width:14px;height:14px;"></i>';
+    } else {
+        document.body.classList.remove('dark-theme');
+        document.getElementById('themeThumb').innerHTML = '<i data-lucide="sun" style="width:14px;height:14px;"></i>';
+    }
+    lucide.createIcons();
 }
 
-function updateTexts() {
-    document.getElementById('langAzBtn').classList.toggle('active', lang === 'az');
-    document.getElementById('langTrBtn').classList.toggle('active', lang === 'tr');
-    
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(i18n[lang][key]) el.innerHTML = i18n[lang][key];
-    });
-
-    const rwTxt = document.getElementById('adRewardTxt');
-    if(rwTxt) rwTxt.textContent = fC(REWARD);
-
-    const amtInput = document.getElementById('withdrawAmount');
-    if(amtInput) amtInput.placeholder = lang === 'tr' ? 'Miktar (Min 132 TL)' : 'Məbləğ (Min 5 ₼)';
-}
-
-// NAVİQASİYA (MENYULAR)
+// --- NAVİQASİYA ---
 function nav(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     
     document.querySelectorAll('.menu-nav button').forEach(b => b.classList.remove('active'));
     if(btn) btn.classList.add('active');
+    
     updateUI();
 }
 
-// PROFİL (TELEGRAM MƏLUMATLARI)
+// --- REKLAM İZLƏMƏ ---
+function watchAd() {
+    if (cnt >= MAX_ADS || adRunning) return;
+    adRunning = true;
+    updateUI();
+    
+    try {
+        if (!adManager && window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28369" }); }
+        
+        if (adManager) {
+            adManager.show().then(() => { rewardUser(); }).catch(() => {
+                adRunning = false; updateUI();
+            });
+        } else {
+            setTimeout(() => { rewardUser(); }, 1000); // Test Modu
+        }
+    } catch(e) {
+        adRunning = false; updateUI();
+    }
+}
+
+function rewardUser() {
+    bal += REWARD;
+    cnt++;
+    totAds++;
+    totEarn += REWARD;
+    adRunning = false;
+    updateUI();
+    showNotif(`🎉 +${fC(REWARD, true)} ${lang === 'tr' ? 'TL' : '₼'}`);
+}
+
+// --- BİLDİRİŞLƏR ---
+let notifTimeout;
+function showNotif(msg) {
+    const notif = document.getElementById('notification');
+    document.getElementById('notifText').innerHTML = msg;
+    notif.classList.add('show');
+    clearTimeout(notifTimeout);
+    notifTimeout = setTimeout(() => notif.classList.remove('show'), 3000);
+}
+
+// --- CÜZDAN VƏ ÇIXARIŞ ---
+let selMethod = null;
+let selNet = 'bep20';
+
+function renderMethods() {
+    const list = document.getElementById('methodsList');
+    list.innerHTML = '';
+    const showMethods = lang === 'tr' ? [methods[5]] : methods;
+    
+    showMethods.forEach(m => {
+        let mName = (lang === 'tr' && m.id === 'bank') ? 'Banka Kartı' : m.name;
+        let minTxt = i18n[lang].min_text + (lang === 'tr' ? ' 132 TL' : ' 5 ₼');
+        
+        list.innerHTML += `
+        <div class="method-card" onclick="openMethod('${m.id}', '${mName}')">
+            <img src="${m.icon}" class="method-logo" alt="${mName}">
+            <div class="method-name">${mName}</div>
+            <div class="method-min">${minTxt}</div>
+        </div>`;
+    });
+}
+
+function showWalletMethods() {
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('methodsContainer').style.display = 'block';
+    selMethod = null;
+    document.getElementById('withdrawDetails').value = '';
+    document.getElementById('withdrawAmount').value = '';
+    document.getElementById('feeBox').style.display = 'none';
+    document.getElementById('withdrawAlert').classList.remove('show');
+}
+
+function openMethod(id, name) {
+    selMethod = { id, name };
+    document.getElementById('methodsContainer').style.display = 'none';
+    document.getElementById('formContainer').style.display = 'block';
+    
+    const detInp = document.getElementById('withdrawDetails');
+    const netWrap = document.getElementById('networkWrapper');
+    document.getElementById('withdrawAmount').placeholder = lang === 'tr' ? 'Miktar (Min 132 TL)' : 'Məbləğ (Min 5 ₼)';
+    
+    if(id === 'usdt') {
+        detInp.placeholder = 'USDT Adresi';
+        netWrap.style.display = 'block';
+    } else {
+        detInp.placeholder = (id === 'bank' || id === 'm10') 
+            ? (lang === 'tr' ? 'Kart Numarası (16 rakam)' : 'Kart nömrəsi (16 rəqəm)') 
+            : (lang === 'tr' ? 'Telefon Numaranız (10 rakam)' : 'Nömrəniz (10 rəqəm)');
+        netWrap.style.display = 'none';
+    }
+}
+
+function selectNet(btn) {
+    document.querySelectorAll('.net-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selNet = btn.getAttribute('data-net');
+}
+
+document.getElementById('withdrawAmount').addEventListener('input', function() {
+    const v = parseFloat(this.value);
+    const box = document.getElementById('feeBox');
+    if(isNaN(v) || v <= 0) { box.style.display = 'none'; return; }
+    
+    box.style.display = 'block';
+    const fee = v * FEE_PCT;
+    const recv = v - fee;
+    
+    document.getElementById('feeAmount').innerHTML = `${fC(fee, true)} <span class="bal-sym">${lang === 'tr' ? 'TL' : '₼'}</span>`;
+    document.getElementById('receiveAmount').innerHTML = `${fC(recv, true)} <span class="bal-sym">${lang === 'tr' ? 'TL' : '₼'}</span>`;
+});
+
+function drawAlert(msg) {
+    const al = document.getElementById('withdrawAlert');
+    al.textContent = msg;
+    al.classList.add('show');
+    setTimeout(() => al.classList.remove('show'), 3500);
+}
+
+function requestWithdraw() {
+    if(!selMethod) return drawAlert(i18n[lang].err_method);
+    
+    const det = document.getElementById('withdrawDetails').value.trim();
+    const amt = parseFloat(document.getElementById('withdrawAmount').value);
+    
+    if(selMethod.id === 'usdt' && det.length < 20) return drawAlert(i18n[lang].err_usdt);
+    if((selMethod.id === 'bank' || selMethod.id === 'm10') && det.length !== 16) return drawAlert(i18n[lang].err_bank);
+    if(['nar','azercell','bakcell'].includes(selMethod.id) && det.length !== 10) return drawAlert(i18n[lang].err_phone);
+    if(isNaN(amt) || amt <= 0) return drawAlert(i18n[lang].err_amount);
+    
+    const reqMin = lang === 'tr' ? MIN_WITHDRAW * 26.4 : MIN_WITHDRAW;
+    if(amt < reqMin) return drawAlert(i18n[lang].err_min + fC(MIN_WITHDRAW, true) + (lang==='tr'?' TL':' ₼'));
+    
+    const aznAmt = lang === 'tr' ? (amt / 26.4) : amt;
+    if(aznAmt > bal) return drawAlert(i18n[lang].err_bal);
+    
+    bal -= aznAmt;
+    let dispName = selMethod.name;
+    if(selMethod.id === 'usdt') dispName += ` (${selNet.toUpperCase()})`;
+    
+    historyArr.unshift({
+        id: Date.now(),
+        icon: methods.find(x => x.id === selMethod.id)?.icon,
+        name: dispName,
+        amt: amt,
+        date: new Date().getTime(),
+        status: 'pending'
+    });
+    
+    updateUI();
+    showWalletMethods();
+    showNotif(i18n[lang].success_withdraw);
+    renderHistory();
+}
+
+function renderHistory() {
+    const list = document.getElementById('historyList');
+    list.innerHTML = '';
+    
+    if(historyArr.length === 0) {
+        list.innerHTML = `<div style="text-align:center; padding: 20px; color:var(--text-muted); font-size:14px; font-weight:600;">Boşdur...</div>`;
+        return;
+    }
+    
+    historyArr.forEach(h => {
+        const d = new Date(h.date);
+        const ds = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        list.innerHTML += `
+        <div class="history-item">
+            <div class="history-left">
+                <div class="history-type"><img src="${h.icon}"> ${h.name}</div>
+                <div class="history-date">${ds}</div>
+            </div>
+            <div class="history-right">
+                <div class="history-amt">${fC(lang === 'tr'? h.amt/26.4 : h.amt, true)} ${lang==='tr'?'TL':'₼'}</div>
+                <div class="history-status">${i18n[lang].status_pending}</div>
+            </div>
+        </div>`;
+    });
+}
+
+// --- PROFİL VƏ PAYLAŞIM ---
 function loadProfile() {
     document.getElementById('userId').textContent = refId;
     if (tgUser) {
-        let fullName = tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "");
-        document.getElementById('userName').textContent = fullName;
+        let fn = tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "");
+        document.getElementById('userName').textContent = fn;
         if(tgUser.photo_url) {
             document.getElementById('userAvatar').src = tgUser.photo_url;
             document.getElementById('avatarWrap').classList.add('has-img');
@@ -832,149 +962,23 @@ function loadProfile() {
 }
 
 function copyLink() {
-    navigator.clipboard.writeText(refLink).then(() => showNotification(i18n[lang].msg_copied)).catch(() => {
-        const ta = document.createElement('textarea'); ta.value = refLink; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-        showNotification(i18n[lang].msg_copied);
-    });
-}
-function shareWp() { window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(refLink)}`, '_blank'); }
-function shareTg() { window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(refLink)}`, '_blank'); }
-
-// CÜZDAN VƏ ÇIXARIŞ
-function renderMethods() {
-    const list = document.getElementById('methodsList');
-    list.innerHTML = '';
-    const methodsToShow = lang === 'tr' ? [methods[5]] : methods;
-    
-    methodsToShow.forEach(m => {
-        const minText = lang === 'tr' ? 'Min: 132 TL' : 'Min: 5 ₼';
-        const dName = (lang === 'tr' && m.id === 'bank') ? 'Banka Kartı' : m.name;
-        
-        list.innerHTML += `
-        <div class="method-card" onclick="openWithdrawForm('${m.id}', '${dName}')">
-          <img src="${m.icon}" alt="${dName}" class="method-logo">
-          <div class="method-name">${dName}</div>
-          <div class="method-min">${minText}</div>
-        </div>`;
-    });
+    const ta = document.createElement("textarea");
+    ta.value = refLink;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showNotif(i18n[lang].msg_copied); } catch(e){}
+    document.body.removeChild(ta);
 }
 
-function showWalletMethods() {
-    document.getElementById('formContainer').style.display = 'none';
-    document.getElementById('methodsContainer').style.display = 'block';
-    selectedMethod = '';
-    selectedNet = '';
-    document.getElementById('withdrawDetails').value = '';
-    document.getElementById('withdrawAmount').value = '';
-    document.getElementById('feeBox').style.display = 'none';
+function shareWp() {
+    const msg = `🔥 Manat Play ilə saniyələr içində qazan!\n\n👇 İndi qoşul:\n${refLink}`;
+    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
 }
 
-function openWithdrawForm(id, name) {
-    selectedMethod = id;
-    document.getElementById('methodsContainer').style.display = 'none';
-    document.getElementById('formContainer').style.display = 'block';
-    
-    const wDet = document.getElementById('withdrawDetails');
-    const wNet = document.getElementById('networkWrapper');
-    
-    if (id === 'usdt') {
-        wDet.placeholder = 'USDT Adresi';
-        wNet.style.display = 'block';
-    } else {
-        wDet.placeholder = (id === 'bank' || id === 'm10') ? 
-            (lang === 'tr' ? 'Kart Numarası (16 rakam)' : 'Kart nömrəsi (16 rəqəm)') : 
-            (lang === 'tr' ? 'Telefon Numaranız' : 'Nömrəniz');
-        wNet.style.display = 'none';
-        selectedNet = '';
-    }
-}
-
-function selectNet(btn) {
-    document.querySelectorAll('.net-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedNet = btn.dataset.net;
-}
-
-document.getElementById('withdrawAmount').addEventListener('input', calculateFee);
-function calculateFee() {
-    const amt = parseFloat(document.getElementById('withdrawAmount').value);
-    const box = document.getElementById('feeBox');
-    if(isNaN(amt) || amt <= 0) {
-        box.style.display = 'none';
-        return;
-    }
-    box.style.display = 'block';
-    const fee = amt * FEE_PCT;
-    const final = amt - fee;
-    document.getElementById('feeAmount').innerHTML = `${fC(fee, true)} <span class="bal-sym">${lang==='tr'?'TL':'₼'}</span>`;
-    document.getElementById('receiveAmount').innerHTML = `${fC(final, true)} <span class="bal-sym">${lang==='tr'?'TL':'₼'}</span>`;
-}
-
-function requestWithdraw() {
-    const details = document.getElementById('withdrawDetails').value.trim();
-    const amt = parseFloat(document.getElementById('withdrawAmount').value);
-    
-    if(!selectedMethod) return alertMsg('withdrawAlert', i18n[lang].err_method);
-    if(selectedMethod === 'usdt' && !selectedNet) return alertMsg('withdrawAlert', i18n[lang].err_network);
-    if((selectedMethod === 'bank' || selectedMethod === 'm10') && details.length !== 16) return alertMsg('withdrawAlert', i18n[lang].err_card);
-    if(['nar', 'azercell', 'bakcell'].includes(selectedMethod) && details.length !== 10) return alertMsg('withdrawAlert', i18n[lang].err_phone);
-    if(selectedMethod === 'usdt' && details.length < 20) return alertMsg('withdrawAlert', i18n[lang].err_usdt);
-    if(isNaN(amt) || amt <= 0) return alertMsg('withdrawAlert', i18n[lang].err_amount);
-    if(amt < MIN_WITHDRAW) return alertMsg('withdrawAlert', `${i18n[lang].err_min} ${fC(MIN_WITHDRAW)}`);
-    if(amt > bal) return alertMsg('withdrawAlert', i18n[lang].err_bal);
-
-    bal -= amt;
-    updateUI();
-    
-    let mObj = methods.find(x => x.id === selectedMethod);
-    let dName = mObj ? mObj.name : selectedMethod;
-    if(selectedMethod === 'usdt') dName += ` (${selectedNet.toUpperCase()})`;
-    
-    withdrawHistory.push({
-        id: Date.now(),
-        type: selectedMethod,
-        name: dName,
-        details: details,
-        amount: amt,
-        date: new Date().getTime(),
-        status: 'pending'
-    });
-    
-    sSet(KEYS.hist, withdrawHistory);
-    renderHistory();
-    showNotification(i18n[lang].success_withdraw);
-    showWalletMethods();
-}
-
-function renderHistory() {
-    const list = document.getElementById('historyList');
-    list.innerHTML = '';
-    
-    if(withdrawHistory.length === 0) {
-        list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:14px;">${i18n[lang].history_empty}</div>`;
-        return;
-    }
-    
-    const rev = [...withdrawHistory].reverse();
-    rev.forEach(item => {
-        let mObj = methods.find(x => x.id === item.type) || methods[0];
-        const d = new Date(item.date);
-        const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        
-        list.innerHTML += `
-        <div class="history-item">
-            <div class="history-left">
-                <div class="history-type"><img src="${mObj.icon}" alt=""> ${item.name}</div>
-                <div class="history-date">${dateStr}</div>
-            </div>
-            <div class="history-right">
-                <div class="history-amt">${fC(item.amount)}</div>
-                <div class="history-status">${i18n[lang].status_pending}</div>
-            </div>
-        </div>`;
-    });
+function shareTg() {
+    const msg = `🔥 Manat Play ilə saniyələr içində qazan!\n\n👇 İndi qoşul:\n${refLink}`;
+    window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(msg)}`, '_blank');
 }
 </script>
-
 </body>
 </html>
