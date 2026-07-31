@@ -142,7 +142,7 @@ body.dark-theme {
   transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .main-btn:active:not(:disabled) { transform: scale(0.95); box-shadow: 0 5px 15px var(--accent-shadow); }
-.main-btn.waiting { background: var(--input-bg) !important; color: var(--text-muted) !important; box-shadow: none !important; cursor: not-allowed !important; border: 1px solid var(--card-border) !important; }
+.main-btn.waiting { background: var(--input-bg); color: var(--text-muted); box-shadow: none; cursor: not-allowed; border: 1px solid var(--card-border); }
 
 /* ALT MENYU */
 .menu-nav {
@@ -208,7 +208,7 @@ body.dark-theme .net-btn.active { background: rgba(0, 230, 118, 0.05); }
 .fee-box .total { font-size: 16px; color: var(--accent); font-weight: 800; margin-top: 10px; display: block; }
 
 .history-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-.history-item { background: var(--input-bg); padding: 15px 20px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--card-border); }
+.history-item { background: var(--input-bg); padding: 15px 20px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; }
 .history-left { display: flex; flex-direction: column; gap: 5px; }
 .history-type { font-weight: 700; font-size: 15px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
 .history-type img { width: 24px; height: 24px; border-radius: 6px; }
@@ -216,7 +216,6 @@ body.dark-theme .net-btn.active { background: rgba(0, 230, 118, 0.05); }
 .history-right { text-align: right; }
 .history-amt { font-size: 16px; font-weight: 800; color: var(--accent); margin-bottom: 5px; }
 .history-status { font-size: 11px; padding: 4px 10px; background: rgba(255, 165, 0, 0.15); color: #FFA500; border-radius: 8px; font-weight: 700; }
-.history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 20px; font-weight: 500; }
 
 /* PROFIL SƏHİFƏSİ */
 .profile-header { text-align: center; margin-bottom: 30px; }
@@ -235,7 +234,7 @@ body.dark-theme .net-btn.active { background: rgba(0, 230, 118, 0.05); }
 .p-stat-lbl { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
 
 /* AYARLAR */
-.setting-row { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--input-bg); border-radius: 20px; margin-bottom: 15px; border: 1px solid var(--card-border); }
+.setting-row { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--input-bg); border-radius: 20px; margin-bottom: 15px; }
 .setting-left { display: flex; align-items: center; gap: 15px; font-weight: 700; font-size: 16px; color: var(--text-main); }
 .setting-icon { width: 40px; height: 40px; background: var(--card-bg); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
@@ -259,28 +258,33 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
   background: var(--accent-gradient); color: #fff; padding: 15px 25px; border-radius: 20px;
   box-shadow: 0 15px 30px var(--accent-shadow); font-weight: 700; font-size: 15px;
   display: flex; align-items: center; gap: 12px; z-index: 10000; transition: top 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  white-space: nowrap; border: 1px solid rgba(255,255,255,0.2);
+  white-space: nowrap;
 }
 #notification.show { top: 30px; }
+
+.alert-msg { margin-top: 15px; font-weight: 600; font-size: 14px; text-align: center; color: var(--danger); }
 
 /* YÜKLƏNMƏ EKRANI */
 #loader {
   position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
   background: var(--bg-color); display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 99999; transition: opacity 0.5s ease;
+  z-index: 99999; transition: opacity 0.5s;
 }
 .loader-brand { font-size: 40px; font-weight: 900; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; animation: pulse 2s infinite alternate; }
 @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 .loader-text { font-size: 16px; font-weight: 700; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
+
 </style>
 </head>
 <body id="body">
 
+<!-- YÜKLƏNMƏ EKRANI -->
 <div id="loader">
   <div class="loader-brand">Manat Play</div>
   <div class="loader-text" id="loaderText">Yüklənir...</div>
 </div>
 
+<!-- BİLDİRİŞ EKRANI -->
 <div id="notification">
   <i data-lucide="info"></i>
   <span id="notifText"></span>
@@ -300,7 +304,7 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
 
     <div class="glass-card ad-card">
       <h2 data-i18n="ad_title">Pul Qazan</h2>
-      <p data-i18n="ad_desc">Hər izlədiyiniz reklam üçün <strong id="adRewardTxt" style="color: var(--accent);">0.002 ₼</strong> qazanın.</p>
+      <p data-i18n="ad_desc">Hər izlədiyiniz reklam üçün <strong id="adRewardTxt">0.002 ₼</strong> qazanın.</p>
       
       <div class="stats-row">
         <div class="stat-box">
@@ -318,8 +322,9 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
 
       <button id="watchAdBtn" class="main-btn" onclick="watchAd()">
         <i data-lucide="play-circle"></i>
-        <span data-i18n="watch_btn" id="watchBtnText">Reklam İzlə</span>
+        <span data-i18n="watch_btn">Reklam İzlə</span>
       </button>
+      <div class="alert-msg" id="adAlert"></div>
     </div>
   </div>
 
@@ -383,10 +388,11 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
       <button id="withdrawBtn" class="main-btn" onclick="requestWithdraw()">
         <i data-lucide="check-circle"></i> <span data-i18n="confirm">Təsdiqlə</span>
       </button>
+      <div class="alert-msg" id="withdrawAlert" style="margin-top: 15px;"></div>
     </div>
 
     <div class="glass-card" style="margin-top: 20px;">
-      <h3 style="font-weight: 800; font-size: 18px; margin-bottom: 15px;" data-i18n="history">Tarixçə</h3>
+      <h3 style="font-weight: 800; font-size: 18px;" data-i18n="history">Tarixçə</h3>
       <div class="history-list" id="historyList"></div>
     </div>
   </div>
@@ -411,7 +417,7 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
       </div>
       <div class="p-stat-card">
         <i data-lucide="wallet"></i>
-        <div class="p-stat-val" id="totalEarnedStat" style="color: var(--accent);">0.00</div>
+        <div class="p-stat-val" id="totalEarnedStat">0.00</div>
         <div class="p-stat-lbl" data-i18n="stat_earned">Qazanıldı</div>
       </div>
     </div>
@@ -439,7 +445,7 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
           <span data-i18n="theme">Tema</span>
         </div>
         <div class="theme-switch" onclick="toggleTheme()">
-          <div class="thumb" id="themeThumb"><i data-lucide="moon" id="themeIcon" style="width:16px;height:16px;"></i></div>
+          <div class="thumb" id="themeThumb"><i data-lucide="sun" style="width:16px;height:16px;"></i></div>
         </div>
       </div>
 
@@ -462,7 +468,7 @@ body.dark-theme .theme-switch .thumb { transform: translateX(26px); }
 </div>
 
 <script>
-// --- İLKİN QURULUM VƏ DƏYİŞƏNLƏR ---
+// İLKİN QURULUM VƏ DƏYİŞƏNLƏR
 function sGet(k, d=0){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch{ return d; } }
 function sSet(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 
@@ -493,11 +499,12 @@ const KEYS = {
 const REWARD = 0.002;
 const MAX_ADS = 50;
 const FEE_PCT = 0.05;
+const MIN_WITHDRAW = 5;
 const refLink = `https://t.me/manatplaybot?startapp=${refId}`;
 
 let bal = parseFloat(sGet(KEYS.bal, 0.00));
 let cnt = parseInt(sGet(KEYS.adsCnt, 0));
-let historyArr = sGet(KEYS.hist, []);
+let withdrawHistory = sGet(KEYS.hist, []);
 let totAds = parseInt(sGet(KEYS.totAds, 0));
 let totEarn = parseFloat(sGet(KEYS.totEarn, 0.00));
 
@@ -509,34 +516,6 @@ let adRunning = false;
 let adManager = null;
 if (window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28369" }); }
 
-// TƏRCÜMƏ SÖZLÜYÜ
-const dict = {
-    az: {
-        loading: "Yüklənir...", balance: "Ümumi Balans", ad_title: "Pul Qazan", ad_desc: "Hər izlədiyiniz reklam üçün <strong style='color:var(--accent);'>0.002 ₼</strong> qazanın.",
-        watched: "İzlənib", limit: "Limit", progress: "İrəliləyiş:", watch_btn: "Reklam İzlə", watching_btn: "Gözləyin...",
-        tasks_empty_title: "Tezliklə!", tasks_empty_desc: "Bu bölmə üzərində işləyirik. Çox yaxında burada yeni və qazanc dolu tapşırıqlar olacaq. Bizi izləməyə davam edin!",
-        withdraw_method: "Çıxarış Üsulu", back: "Geri Qayıt", enter_details: "Məlumatları daxil edin",
-        fee: "Şəbəkə haqqı (5%):", total_receive: "Yekun məbləğ:", confirm: "Təsdiqlə", history: "Tarixçə", history_empty: "Tarixçə boşdur.",
-        stats: "Statistika", stat_watched: "İzləndi", stat_earned: "Qazanıldı",
-        settings: "Ayarlar", lang: "Dil", theme: "Tema", invite: "Dostlarını Dəvət Et", copy: "Linki Kopyala", wp: "WhatsApp", tg: "Telegram",
-        menu_settings: "Ayarlar", menu_tasks: "Tapşırıqlar", menu_home: "Ana Səhifə", menu_wallet: "Cüzdan", menu_profile: "Profil",
-        err_bal: "Balans kifayət deyil", err_min: "Minimum çıxarış 5 ₼", err_fill: "Xanaları düzgün doldurun",
-        success: "Uğurlu!", req_sent: "Tələb göndərildi", limit_reached: "Günlük limit doldu!", copied: "Link Kopyalandı!"
-    },
-    tr: {
-        loading: "Yükleniyor...", balance: "Toplam Bakiye", ad_title: "Para Kazan", ad_desc: "İzlediğiniz her reklam için <strong style='color:var(--accent);'>0.0528 TL</strong> kazanın.",
-        watched: "İzlendi", limit: "Limit", progress: "İlerleme:", watch_btn: "Reklam İzle", watching_btn: "Bekleyin...",
-        tasks_empty_title: "Yakında!", tasks_empty_desc: "Bu bölüm üzerinde çalışıyoruz. Çok yakında burada yeni ve kazançlı görevler olacak. Bizi takip etmeye devam edin!",
-        withdraw_method: "Çekim Yöntemi", back: "Geri Dön", enter_details: "Bilgileri girin",
-        fee: "Ağ ücreti (5%):", total_receive: "Sonuç:", confirm: "Onayla", history: "Geçmiş", history_empty: "Geçmiş boş.",
-        stats: "İstatistikler", stat_watched: "İzlendi", stat_earned: "Kazanıldı",
-        settings: "Ayarlar", lang: "Dil", theme: "Tema", invite: "Arkadaşlarını Davet Et", copy: "Bağlantıyı Kopyala", wp: "WhatsApp", tg: "Telegram",
-        menu_settings: "Ayarlar", menu_tasks: "Görevler", menu_home: "Ana Sayfa", menu_wallet: "Cüzdan", menu_profile: "Profil",
-        err_bal: "Bakiye yetersiz", err_min: "Minimum çekim 132 TL", err_fill: "Alanları doğru doldurun",
-        success: "Başarılı!", req_sent: "Talep gönderildi", limit_reached: "Günlük limit doldu!", copied: "Bağlantı kopyalandı!"
-    }
-};
-
 const methods = [
     { id: 'm10', name: 'M10', icon: 'https://i.postimg.cc/Kj94hVNG/unnamed.png' },
     { id: 'bank', name: 'Bank Kartı', icon: 'https://i.postimg.cc/L6H0yWwZ/42492-bank-1024.png' },
@@ -545,339 +524,457 @@ const methods = [
     { id: 'bakcell', name: 'Bakcell', icon: 'https://i.postimg.cc/Pqmx5N49/images.jpg' },
     { id: 'usdt', name: 'USDT', icon: 'https://i.postimg.cc/8kmSsGyz/XTVCUSDT-600-(1).png' }
 ];
-let selMethod = null;
-let selNet = 'bep20';
 
-// YÜKLƏNMƏ EKRANININ SİLİNMƏSİ VƏ İLKİN İNİSİALİZASİYA
+let selectedMethod = '';
+let selectedNet = '';
+
+// DİL PAKETİ (i18n)
+const i18n = {
+  az: {
+    loader: "Yüklənir...",
+    balance: "Ümumi Balans",
+    ad_title: "Pul Qazan",
+    ad_desc: "Hər izlədiyiniz reklam üçün <strong id='adRewardTxt'>0.002 ₼</strong> qazanın.",
+    watched: "İzlənib",
+    limit: "Limit",
+    progress: "İrəliləyiş:",
+    watch_btn: "Reklam İzlə",
+    watching: "İzlənir...",
+    limit_reached: "Limit Doldu",
+    tasks_empty_title: "Tezliklə!",
+    tasks_empty_desc: "Bu bölmə üzərində işləyirik. Çox yaxında burada yeni və qazanc dolu tapşırıqlar olacaq. Bizi izləməyə davam edin!",
+    withdraw_method: "Çıxarış Üsulu",
+    min_amount: "Min",
+    back: "Geri Qayıt",
+    enter_details: "Məlumatları daxil edin",
+    fee: "Şəbəkə haqqı (5%):",
+    total_receive: "Yekun məbləğ:",
+    confirm: "Təsdiqlə",
+    history: "Tarixçə",
+    history_empty: "Tarixçə boşdur.",
+    status_pending: "Gözləyir",
+    stats: "Statistika",
+    stat_watched: "İzləndi",
+    stat_earned: "Qazanıldı",
+    settings: "Ayarlar",
+    lang: "Dil",
+    theme: "Tema",
+    invite: "Dostlarını Dəvət Et",
+    copy: "Linki Kopyala",
+    wp: "WhatsApp",
+    tg: "Telegram",
+    menu_settings: "Ayarlar",
+    menu_tasks: "Tapşırıqlar",
+    menu_home: "Ana Səhifə",
+    menu_wallet: "Cüzdan",
+    menu_profile: "Profil",
+    msg_copied: "Link kopyalandı!",
+    msg_limit: "Günlük limitə çatdınız!",
+    msg_reward: "Təbriklər! Qazandınız:",
+    err_method: "Çıxarış üsulunu seçin.",
+    err_network: "Zəhmət olmasa şəbəkə seçin.",
+    err_card: "Kart nömrəsi 16 rəqəm olmalıdır.",
+    err_phone: "Nömrə tam 10 rəqəm olmalıdır.",
+    err_usdt: "USDT adresi yanlışdır.",
+    err_amount: "Düzgün məbləğ daxil edin.",
+    err_min: "Minimum çıxarış",
+    err_bal: "Balans kifayət deyil.",
+    success_withdraw: "Tələbiniz qəbul edildi!"
+  },
+  tr: {
+    loader: "Yükleniyor...",
+    balance: "Toplam Bakiye",
+    ad_title: "Para Kazan",
+    ad_desc: "Her izlediğiniz reklam için <strong id='adRewardTxt'>0.052 TL</strong> kazanın.",
+    watched: "İzlendi",
+    limit: "Limit",
+    progress: "İlerleme:",
+    watch_btn: "Reklam İzle",
+    watching: "İzleniyor...",
+    limit_reached: "Limit Doldu",
+    tasks_empty_title: "Yakında!",
+    tasks_empty_desc: "Bu bölüm üzerinde çalışıyoruz. Çok yakında burada yeni ve kazançlı görevler olacak. Bizi takip etmeye devam edin!",
+    withdraw_method: "Çekim Yöntemi",
+    min_amount: "Min",
+    back: "Geri Dön",
+    enter_details: "Bilgileri girin",
+    fee: "Ağ ücreti (5%):",
+    total_receive: "Net Miktar:",
+    confirm: "Onayla",
+    history: "Geçmiş",
+    history_empty: "Geçmiş boş.",
+    status_pending: "Bekliyor",
+    stats: "İstatistikler",
+    stat_watched: "İzlendi",
+    stat_earned: "Kazanıldı",
+    settings: "Ayarlar",
+    lang: "Dil",
+    theme: "Tema",
+    invite: "Arkadaşlarını Davet Et",
+    copy: "Linki Kopyala",
+    wp: "WhatsApp",
+    tg: "Telegram",
+    menu_settings: "Ayarlar",
+    menu_tasks: "Görevler",
+    menu_home: "Ana Sayfa",
+    menu_wallet: "Cüzdan",
+    menu_profile: "Profil",
+    msg_copied: "Link kopyalandı!",
+    msg_limit: "Günlük limite ulaştınız!",
+    msg_reward: "Tebrikler! Kazandınız:",
+    err_method: "Çekim yöntemi seçin.",
+    err_network: "Lütfen ağ seçin.",
+    err_card: "Kart numarası 16 rakam olmalıdır.",
+    err_phone: "Numara tam 10 rakam olmalıdır.",
+    err_usdt: "USDT adresi yanlış.",
+    err_amount: "Geçerli bir miktar girin.",
+    err_min: "Minimum çekim",
+    err_bal: "Bakiye yetersiz.",
+    success_withdraw: "Talebiniz alındı!"
+  }
+};
+
+// YÜKLƏNMƏ EKRANININ SİLİNMƏSİ (BU HİSSƏ ƏLAVƏ EDİLDİ)
 window.addEventListener('load', () => {
-    initApp();
     setTimeout(() => {
         const loader = document.getElementById('loader');
         if (loader) {
             loader.style.opacity = '0';
-            setTimeout(() => { loader.style.display = 'none'; }, 500);
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
         }
-    }, 800);
+    }, 1200); // Tətbiqə 1.2 saniyə yüklənmə vaxtı verilir
+    initApp();
 });
 
 function initApp() {
     checkDailyReset();
-    if(isDark) { document.body.classList.add('dark-theme'); document.getElementById('themeIcon').setAttribute('data-lucide', 'sun'); }
-    applyLang();
-    renderProfile();
-    updateUI();
+    applyTheme();
+    updateTexts();
+    loadProfile();
+    renderMethods();
+    renderHistory();
     lucide.createIcons();
+    updateUI();
 }
 
 function checkDailyReset() {
-    let today = new Date().toLocaleDateString('en-GB', { timeZone: 'Europe/Moscow' });
-    let savedDate = localStorage.getItem(KEYS.date);
-    if(savedDate !== today) {
-        cnt = 0; sSet(KEYS.adsCnt, cnt);
+    const today = new Date().toLocaleDateString('en-GB'); 
+    const savedDate = localStorage.getItem(KEYS.date);
+    if (savedDate !== today) {
+        cnt = 0;
+        sSet(KEYS.adsCnt, cnt);
         localStorage.setItem(KEYS.date, today);
     }
 }
 
-// FORMATLAMA
-function fC(val, pure = false) {
+// UI YENİLƏMƏLƏRİ VƏ FORMATLAMA
+function fC(val, isNumber = false) {
     if(lang === 'tr') {
         let v = (parseFloat(val) * 26.4).toFixed(4).replace(/\.?0+$/, '');
-        return pure ? v : v; 
+        return isNumber ? v : v + ' TL';
     }
-    let v = parseFloat(val).toFixed(3);
-    return pure ? v : v;
-}
-function getSym() { return lang === 'tr' ? 'TL' : '₼'; }
-
-// DİL VƏ TEMA İDARƏSİ
-function changeLang(l) {
-    if(lang === l) return;
-    lang = l; sSet(KEYS.lang, l);
-    applyLang(); updateUI();
+    let v2 = parseFloat(val).toFixed(3);
+    return isNumber ? v2 : v2 + ' ₼';
 }
 
-function applyLang() {
-    document.getElementById('langAzBtn').classList.toggle('active', lang === 'az');
-    document.getElementById('langTrBtn').classList.toggle('active', lang === 'tr');
+function updateUI() {
+    document.querySelectorAll('.bal-val').forEach(el => el.textContent = fC(bal, true));
+    document.querySelectorAll('.bal-sym').forEach(el => el.textContent = lang === 'tr' ? 'TL' : '₼');
     
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(dict[lang][key]) el.innerHTML = dict[lang][key];
-    });
+    document.getElementById('adCount').textContent = cnt;
+    document.getElementById('adProgress').style.width = (cnt / MAX_ADS * 100) + '%';
+    document.getElementById('adProgressTxt').textContent = `${cnt}/${MAX_ADS}`;
     
-    document.querySelectorAll('.bal-sym').forEach(el => el.textContent = getSym());
-    document.getElementById('loaderText').textContent = dict[lang].loading;
+    document.getElementById('totalAdsStat').textContent = totAds;
+    document.getElementById('totalEarnedStat').textContent = fC(totEarn, true);
+
+    const btn = document.getElementById('watchAdBtn');
+    if (cnt >= MAX_ADS) {
+        btn.classList.add('waiting');
+        btn.disabled = true;
+        btn.innerHTML = `<i data-lucide="lock"></i> <span>${i18n[lang].limit_reached}</span>`;
+    } else {
+        btn.classList.remove('waiting');
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="play-circle"></i> <span>${i18n[lang].watch_btn}</span>`;
+    }
+    lucide.createIcons();
+
+    sSet(KEYS.bal, bal);
+    sSet(KEYS.adsCnt, cnt);
+    sSet(KEYS.totAds, totAds);
+    sSet(KEYS.totEarn, totEarn);
+}
+
+// BİLDİRİŞ (NOTIFICATIONS)
+function showNotification(msg) {
+    const notif = document.getElementById('notification');
+    document.getElementById('notifText').textContent = msg;
+    notif.classList.add('show');
+    setTimeout(() => notif.classList.remove('show'), 3000);
+}
+
+function alertMsg(elementId, msg) {
+    const el = document.getElementById(elementId);
+    el.textContent = msg;
+    setTimeout(() => el.textContent = '', 3500);
+}
+
+// REKLAM FUNKSİYALARI
+function watchAd() {
+    if (cnt >= MAX_ADS || adRunning) return;
+    adRunning = true;
+    const btn = document.getElementById('watchAdBtn');
+    btn.classList.add('waiting');
+    btn.innerHTML = `<i data-lucide="loader"></i> <span>${i18n[lang].watching}</span>`;
+    lucide.createIcons();
     
-    // Placeholder updates
-    let amtInput = document.getElementById('withdrawAmount');
-    amtInput.placeholder = lang === 'tr' ? 'Miktar (Min 132 TL)' : 'Məbləğ (Min 5 ₼)';
-    
-    renderMethods();
-    renderHistory();
+    try {
+        if (!adManager && window.Adsgram) {
+            adManager = window.Adsgram.init({ blockId: "int-28369" });
+        }
+        
+        if (adManager) {
+            adManager.show().then(() => { rewardUser(); }).catch(() => { resetAdBtn(); });
+        } else {
+            // Test mode if Adsgram is blocked or not available
+            setTimeout(() => { rewardUser(); }, 1500);
+        }
+    } catch(e) {
+        resetAdBtn();
+    }
+}
+
+function rewardUser() {
+    bal += REWARD;
+    cnt++;
+    totAds++;
+    totEarn += REWARD;
+    updateUI();
+    showNotification(`${i18n[lang].msg_reward} ${fC(REWARD)}`);
+    adRunning = false;
+}
+
+function resetAdBtn() {
+    adRunning = false;
+    updateUI();
+}
+
+// DİL VƏ TEMA (TƏNZİMLƏMƏLƏR)
+function applyTheme() {
+    if (isDark) {
+        document.body.classList.add('dark-theme');
+        document.getElementById('themeThumb').innerHTML = '<i data-lucide="moon" style="width:16px;height:16px;color:#fff"></i>';
+        document.getElementById('themeThumb').style.background = '#18191C';
+    } else {
+        document.body.classList.remove('dark-theme');
+        document.getElementById('themeThumb').innerHTML = '<i data-lucide="sun" style="width:16px;height:16px;color:#1C1E21"></i>';
+        document.getElementById('themeThumb').style.background = '#fff';
+    }
+    lucide.createIcons();
 }
 
 function toggleTheme() {
     isDark = !isDark;
     sSet(KEYS.theme, isDark ? 'dark' : 'light');
-    document.body.classList.toggle('dark-theme', isDark);
-    const icon = document.getElementById('themeIcon');
-    icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-    lucide.createIcons();
+    applyTheme();
 }
 
-// BİLDİRİŞ (NOTIFICATION)
-function showNotif(msg) {
-    const n = document.getElementById('notification');
-    document.getElementById('notifText').innerHTML = msg;
-    n.classList.add('show');
-    setTimeout(() => { n.classList.remove('show'); }, 3000);
+function changeLang(l) {
+    lang = l;
+    sSet(KEYS.lang, l);
+    document.getElementById('langAzBtn').classList.toggle('active', l === 'az');
+    document.getElementById('langTrBtn').classList.toggle('active', l === 'tr');
+    updateTexts();
+    renderMethods();
+    updateUI();
 }
 
-// NİQAVİQASİYA (SƏHİFƏLƏR)
+function updateTexts() {
+    document.getElementById('langAzBtn').classList.toggle('active', lang === 'az');
+    document.getElementById('langTrBtn').classList.toggle('active', lang === 'tr');
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(i18n[lang][key]) el.innerHTML = i18n[lang][key];
+    });
+
+    const rwTxt = document.getElementById('adRewardTxt');
+    if(rwTxt) rwTxt.textContent = fC(REWARD);
+
+    const amtInput = document.getElementById('withdrawAmount');
+    if(amtInput) amtInput.placeholder = lang === 'tr' ? 'Miktar (Min 132 TL)' : 'Məbləğ (Min 5 ₼)';
+}
+
+// NAVİQASİYA (MENYULAR)
 function nav(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
+    
     document.querySelectorAll('.menu-nav button').forEach(b => b.classList.remove('active'));
     if(btn) btn.classList.add('active');
-    lucide.createIcons();
+    updateUI();
 }
 
-// UI YENİLƏNMƏSİ
-function updateUI() {
-    const fBal = fC(bal);
-    document.querySelectorAll('.bal-val').forEach(el => el.textContent = fBal);
-    
-    document.getElementById('adCount').textContent = cnt;
-    document.getElementById('adProgressTxt').textContent = `${cnt}/${MAX_ADS}`;
-    document.getElementById('adProgress').style.width = `${(cnt/MAX_ADS)*100}%`;
-    
-    document.getElementById('totalAdsStat').textContent = totAds;
-    document.getElementById('totalEarnedStat').textContent = fC(totEarn) + ' ' + getSym();
-
-    const wBtn = document.getElementById('watchAdBtn');
-    const bTxt = document.getElementById('watchBtnText');
-    if(cnt >= MAX_ADS) {
-        wBtn.classList.add('waiting'); wBtn.disabled = true;
-        wBtn.querySelector('i').setAttribute('data-lucide', 'lock');
-        bTxt.textContent = dict[lang].limit_reached;
-    } else {
-        wBtn.classList.remove('waiting'); wBtn.disabled = false;
-        wBtn.querySelector('i').setAttribute('data-lucide', 'play-circle');
-        bTxt.textContent = dict[lang].watch_btn;
-    }
-    lucide.createIcons();
-}
-
-// REKLAM İZLƏMƏ
-function watchAd() {
-    if(cnt >= MAX_ADS || adRunning) {
-        if(cnt >= MAX_ADS) showNotif(dict[lang].limit_reached);
-        return;
-    }
-    
-    adRunning = true;
-    const wBtn = document.getElementById('watchAdBtn');
-    wBtn.classList.add('waiting'); wBtn.disabled = true;
-    document.getElementById('watchBtnText').textContent = dict[lang].watching_btn;
-    wBtn.querySelector('i').setAttribute('data-lucide', 'loader');
-    lucide.createIcons();
-
-    const successAction = () => {
-        bal += REWARD; cnt++; totAds++; totEarn += REWARD;
-        sSet(KEYS.bal, bal); sSet(KEYS.adsCnt, cnt);
-        sSet(KEYS.totAds, totAds); sSet(KEYS.totEarn, totEarn);
-        
-        let rewardTxt = lang === 'tr' ? '0.0528 TL' : '0.002 ₼';
-        showNotif(`🎉 ${dict[lang].success} +${rewardTxt}`);
-        adRunning = false;
-        updateUI();
-    };
-
-    const failAction = () => {
-        adRunning = false;
-        updateUI();
-    };
-
-    try {
-        if (!adManager && window.Adsgram) adManager = window.Adsgram.init({ blockId: "int-28369" });
-        if (adManager) {
-            adManager.show().then(() => successAction()).catch(() => failAction());
-        } else {
-            // Test Mode Fallback
-            setTimeout(() => successAction(), 1500);
+// PROFİL (TELEGRAM MƏLUMATLARI)
+function loadProfile() {
+    document.getElementById('userId').textContent = refId;
+    if (tgUser) {
+        let fullName = tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "");
+        document.getElementById('userName').textContent = fullName;
+        if(tgUser.photo_url) {
+            document.getElementById('userAvatar').src = tgUser.photo_url;
+            document.getElementById('avatarWrap').classList.add('has-img');
         }
-    } catch(e) {
-        failAction();
     }
 }
 
-// CÜZDAN VƏ ÇIXARIŞ SİSTEMİ
+function copyLink() {
+    navigator.clipboard.writeText(refLink).then(() => showNotification(i18n[lang].msg_copied)).catch(() => {
+        const ta = document.createElement('textarea'); ta.value = refLink; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        showNotification(i18n[lang].msg_copied);
+    });
+}
+function shareWp() { window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(refLink)}`, '_blank'); }
+function shareTg() { window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(refLink)}`, '_blank'); }
+
+// CÜZDAN VƏ ÇIXARIŞ
 function renderMethods() {
     const list = document.getElementById('methodsList');
     list.innerHTML = '';
-    let arr = lang === 'tr' ? [methods[5]] : methods; // TR yalnız USDT
+    const methodsToShow = lang === 'tr' ? [methods[5]] : methods;
     
-    arr.forEach(m => {
-        const minT = lang === 'tr' ? 'Min: 132 TL' : 'Min: 5 ₼';
+    methodsToShow.forEach(m => {
+        const minText = lang === 'tr' ? 'Min: 132 TL' : 'Min: 5 ₼';
         const dName = (lang === 'tr' && m.id === 'bank') ? 'Banka Kartı' : m.name;
         
         list.innerHTML += `
-        <div class="method-card" onclick="selectMethod('${m.id}', '${dName}')">
-            <img src="${m.icon}" alt="${dName}" class="method-logo" draggable="false">
-            <div class="method-name">${dName}</div>
-            <div class="method-min">${minT}</div>
+        <div class="method-card" onclick="openWithdrawForm('${m.id}', '${dName}')">
+          <img src="${m.icon}" alt="${dName}" class="method-logo">
+          <div class="method-name">${dName}</div>
+          <div class="method-min">${minText}</div>
         </div>`;
     });
-}
-
-function selectMethod(id, name) {
-    selMethod = {id, name};
-    document.getElementById('methodsContainer').style.display = 'none';
-    document.getElementById('formContainer').style.display = 'block';
-    
-    document.getElementById('withdrawDetails').value = '';
-    document.getElementById('withdrawAmount').value = '';
-    document.getElementById('feeBox').style.display = 'none';
-    
-    const dInp = document.getElementById('withdrawDetails');
-    const netWrap = document.getElementById('networkWrapper');
-    
-    if(id === 'usdt') {
-        dInp.placeholder = 'USDT Adresi';
-        netWrap.style.display = 'block';
-    } else {
-        dInp.placeholder = (id === 'bank' || id === 'm10') ? (lang === 'tr' ? 'Kart No (16 rakam)' : 'Kart Nömrəsi (16 rəqəm)') : (lang === 'tr' ? 'Telefon Numaranız' : 'Nömrəniz (10 rəqəm)');
-        netWrap.style.display = 'none';
-    }
 }
 
 function showWalletMethods() {
     document.getElementById('formContainer').style.display = 'none';
     document.getElementById('methodsContainer').style.display = 'block';
-    selMethod = null;
+    selectedMethod = '';
+    selectedNet = '';
+    document.getElementById('withdrawDetails').value = '';
+    document.getElementById('withdrawAmount').value = '';
+    document.getElementById('feeBox').style.display = 'none';
+}
+
+function openWithdrawForm(id, name) {
+    selectedMethod = id;
+    document.getElementById('methodsContainer').style.display = 'none';
+    document.getElementById('formContainer').style.display = 'block';
+    
+    const wDet = document.getElementById('withdrawDetails');
+    const wNet = document.getElementById('networkWrapper');
+    
+    if (id === 'usdt') {
+        wDet.placeholder = 'USDT Adresi';
+        wNet.style.display = 'block';
+    } else {
+        wDet.placeholder = (id === 'bank' || id === 'm10') ? 
+            (lang === 'tr' ? 'Kart Numarası (16 rakam)' : 'Kart nömrəsi (16 rəqəm)') : 
+            (lang === 'tr' ? 'Telefon Numaranız' : 'Nömrəniz');
+        wNet.style.display = 'none';
+        selectedNet = '';
+    }
 }
 
 function selectNet(btn) {
     document.querySelectorAll('.net-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    selNet = btn.getAttribute('data-net');
+    selectedNet = btn.dataset.net;
 }
 
-document.getElementById('withdrawAmount').addEventListener('input', function() {
-    const v = parseFloat(this.value);
+document.getElementById('withdrawAmount').addEventListener('input', calculateFee);
+function calculateFee() {
+    const amt = parseFloat(document.getElementById('withdrawAmount').value);
     const box = document.getElementById('feeBox');
-    if(isNaN(v) || v <= 0) { box.style.display = 'none'; return; }
-    
+    if(isNaN(amt) || amt <= 0) {
+        box.style.display = 'none';
+        return;
+    }
     box.style.display = 'block';
-    let fee = v * FEE_PCT;
-    let rec = v - fee;
-    document.getElementById('feeAmount').innerHTML = `${fC(fee, true)} <span class="bal-sym">${getSym()}</span>`;
-    document.getElementById('receiveAmount').innerHTML = `${fC(rec, true)} <span class="bal-sym">${getSym()}</span>`;
-});
+    const fee = amt * FEE_PCT;
+    const final = amt - fee;
+    document.getElementById('feeAmount').innerHTML = `${fC(fee, true)} <span class="bal-sym">${lang==='tr'?'TL':'₼'}</span>`;
+    document.getElementById('receiveAmount').innerHTML = `${fC(final, true)} <span class="bal-sym">${lang==='tr'?'TL':'₼'}</span>`;
+}
 
 function requestWithdraw() {
-    const det = document.getElementById('withdrawDetails').value.trim();
+    const details = document.getElementById('withdrawDetails').value.trim();
     const amt = parseFloat(document.getElementById('withdrawAmount').value);
     
-    if(!selMethod || !det || isNaN(amt)) return showNotif(dict[lang].err_fill);
-    
-    const minW = 5; // 5 AZN or equivalent
-    if(amt < minW) return showNotif(dict[lang].err_min);
-    if(amt > bal) return showNotif(dict[lang].err_bal);
-    
-    // Qısa yoxlama (16 rəqəm bank, 10 rəqəm nömrə)
-    if((selMethod.id === 'bank' || selMethod.id === 'm10') && det.length !== 16) return showNotif(dict[lang].err_fill);
-    if(['nar', 'azercell', 'bakcell'].includes(selMethod.id) && det.length !== 10) return showNotif(dict[lang].err_fill);
-    if(selMethod.id === 'usdt' && det.length < 20) return showNotif(dict[lang].err_fill);
+    if(!selectedMethod) return alertMsg('withdrawAlert', i18n[lang].err_method);
+    if(selectedMethod === 'usdt' && !selectedNet) return alertMsg('withdrawAlert', i18n[lang].err_network);
+    if((selectedMethod === 'bank' || selectedMethod === 'm10') && details.length !== 16) return alertMsg('withdrawAlert', i18n[lang].err_card);
+    if(['nar', 'azercell', 'bakcell'].includes(selectedMethod) && details.length !== 10) return alertMsg('withdrawAlert', i18n[lang].err_phone);
+    if(selectedMethod === 'usdt' && details.length < 20) return alertMsg('withdrawAlert', i18n[lang].err_usdt);
+    if(isNaN(amt) || amt <= 0) return alertMsg('withdrawAlert', i18n[lang].err_amount);
+    if(amt < MIN_WITHDRAW) return alertMsg('withdrawAlert', `${i18n[lang].err_min} ${fC(MIN_WITHDRAW)}`);
+    if(amt > bal) return alertMsg('withdrawAlert', i18n[lang].err_bal);
 
-    bal -= amt; sSet(KEYS.bal, bal);
+    bal -= amt;
+    updateUI();
     
-    let mName = selMethod.name;
-    if(selMethod.id === 'usdt') mName += ` (${selNet.toUpperCase()})`;
+    let mObj = methods.find(x => x.id === selectedMethod);
+    let dName = mObj ? mObj.name : selectedMethod;
+    if(selectedMethod === 'usdt') dName += ` (${selectedNet.toUpperCase()})`;
     
-    historyArr.push({
+    withdrawHistory.push({
         id: Date.now(),
-        typeId: selMethod.id,
-        name: mName,
-        amt: amt,
+        type: selectedMethod,
+        name: dName,
+        details: details,
+        amount: amt,
         date: new Date().getTime(),
         status: 'pending'
     });
-    sSet(KEYS.hist, historyArr);
     
-    showNotif("✅ " + dict[lang].req_sent);
-    showWalletMethods();
-    updateUI();
+    sSet(KEYS.hist, withdrawHistory);
     renderHistory();
+    showNotification(i18n[lang].success_withdraw);
+    showWalletMethods();
 }
 
 function renderHistory() {
     const list = document.getElementById('historyList');
     list.innerHTML = '';
-    if(historyArr.length === 0) {
-        list.innerHTML = `<div class="history-empty">${dict[lang].history_empty}</div>`;
+    
+    if(withdrawHistory.length === 0) {
+        list.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:14px;">${i18n[lang].history_empty}</div>`;
         return;
     }
     
-    [...historyArr].reverse().forEach(h => {
-        let mObj = methods.find(x => x.id === h.typeId) || methods[0];
-        let dStr = new Date(h.date).toLocaleString();
+    const rev = [...withdrawHistory].reverse();
+    rev.forEach(item => {
+        let mObj = methods.find(x => x.id === item.type) || methods[0];
+        const d = new Date(item.date);
+        const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         
         list.innerHTML += `
         <div class="history-item">
             <div class="history-left">
-                <div class="history-type"><img src="${mObj.icon}" alt="Icon" draggable="false"> ${h.name}</div>
-                <div class="history-date">${dStr}</div>
+                <div class="history-type"><img src="${mObj.icon}" alt=""> ${item.name}</div>
+                <div class="history-date">${dateStr}</div>
             </div>
             <div class="history-right">
-                <div class="history-amt">${fC(h.amt, true)} ${getSym()}</div>
-                <div class="history-status">Gözləyir</div>
+                <div class="history-amt">${fC(item.amount)}</div>
+                <div class="history-status">${i18n[lang].status_pending}</div>
             </div>
         </div>`;
     });
 }
-
-// PROFIL
-function renderProfile() {
-    let uName = "İstifadəçi";
-    let pic = null;
-    
-    if(tgUser) {
-        uName = tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : '');
-        pic = tgUser.photo_url;
-    }
-    
-    document.getElementById('userName').textContent = uName;
-    document.getElementById('userId').textContent = refId;
-    
-    const wWrap = document.getElementById('avatarWrap');
-    if(pic) {
-        document.getElementById('userAvatar').src = pic;
-        wWrap.classList.add('has-img');
-    } else {
-        wWrap.classList.remove('has-img');
-    }
-}
-
-// PAYLAŞIM
-function copyLink() {
-    navigator.clipboard.writeText(refLink).then(() => {
-        showNotif("✅ " + dict[lang].copied);
-    }).catch(() => {
-        let txt = document.createElement("textarea");
-        txt.value = refLink; document.body.appendChild(txt); txt.select();
-        document.execCommand('copy'); document.body.removeChild(txt);
-        showNotif("✅ " + dict[lang].copied);
-    });
-}
-function shareWp() {
-    let msg = `🔥 Manat Play ilə qazanc vaxtı!\nİndi qoşul: ${refLink}`;
-    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
-}
-function shareTg() {
-    let msg = `🔥 Manat Play ilə qazanc vaxtı!\nİndi qoşul: ${refLink}`;
-    window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(msg)}`, '_blank');
-}
 </script>
+
 </body>
 </html>
