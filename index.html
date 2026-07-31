@@ -4,8 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
 <title id="pageTitle">Manat Play</title>
-<!-- Yeni və daha premium font: Outfit -->
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <script>
@@ -24,291 +23,429 @@ if (window.Telegram && window.Telegram.WebApp) {
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 
 <style>
-/* --- MANAT PLAY XÜSUSİ TEMA (NEON, GLASSMORPHISM, DARK PREMIUM) --- */
+/* --- PREMIUM AÇIQ TEMA --- */
 :root {
-  --bg-color: #05050A;
-  --bg-gradient: radial-gradient(circle at top, #111827, #05050A 70%);
-  
-  /* Kart və Panel rəngləri */
-  --card-bg: rgba(255, 255, 255, 0.04);
+  --bg-color: #F0F2F5; 
+  --card-bg: rgba(255, 255, 255, 0.7); 
+  --card-border: rgba(255, 255, 255, 0.5);
+  --text-main: #1C1E21;
+  --text-muted: #65676B;
+  --accent: #00B4D8;
+  --accent-gradient: linear-gradient(135deg, #0077B6, #00B4D8);
+  --accent-shadow: rgba(0, 180, 216, 0.3);
+  --danger: #FF4D4D;
+  --success: #00C853;
+  --menu-bg: rgba(255, 255, 255, 0.85);
+  --input-bg: #E4E6E9;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+/* --- PREMIUM TÜND TEMA --- */
+body.dark-theme {
+  --bg-color: #0A0A0C;
+  --card-bg: rgba(24, 25, 28, 0.75);
   --card-border: rgba(255, 255, 255, 0.08);
-  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --card-blur: blur(20px);
-  
-  /* Mətn Rəngləri */
-  --text-main: #FFFFFF;
-  --text-muted: #94A3B8;
-  
-  /* Vurğu Rəngləri (Neon Yaşıl & Mavi) */
-  --accent-primary: #00FF87;
-  --accent-secondary: #60EFFF;
-  --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  --accent-glow: rgba(0, 255, 135, 0.25);
-  
-  --danger: #FF3B30;
-  --danger-bg: rgba(255, 59, 48, 0.1);
-  
-  --nav-bg: rgba(15, 23, 42, 0.85);
-  
-  /* Virtual Kart */
-  --vcard-bg: linear-gradient(135deg, #1E293B, #0F172A);
-  --vcard-border: rgba(255,255,255,0.1);
+  --text-main: #E4E6EB;
+  --text-muted: #B0B3B8;
+  --accent: #00E676;
+  --accent-gradient: linear-gradient(135deg, #00C853, #69F0AE);
+  --accent-shadow: rgba(0, 230, 118, 0.3);
+  --danger: #FF5252;
+  --success: #00E676;
+  --menu-bg: rgba(20, 20, 22, 0.85);
+  --input-bg: #18191C;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg-gradient);
+/* --- ÜMUMİ STİLLƏR --- */
+*{box-sizing:border-box;margin:0;padding:0; font-family:'Poppins', sans-serif;}
+body{
   background-color: var(--bg-color);
-  color: var(--text-main);
-  min-height: var(--tg-viewport-stable-height, 100vh);
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  padding-bottom: 100px;
-  overflow-x: hidden;
+  background-image: radial-gradient(circle at 15% 50%, rgba(0, 180, 216, 0.05), transparent 25%),
+                    radial-gradient(circle at 85% 30%, rgba(0, 200, 83, 0.05), transparent 25%);
+  color:var(--text-main);
+  min-height:var(--tg-viewport-stable-height, 100vh);
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  transition: background-color 0.4s ease, color 0.4s ease; 
+  padding-bottom: 100px; 
+}
+body.dark-theme {
+  background-image: radial-gradient(circle at 15% 50%, rgba(0, 230, 118, 0.08), transparent 25%),
+                    radial-gradient(circle at 85% 30%, rgba(0, 230, 118, 0.05), transparent 25%);
 }
 
-/* Arxaplan Effekti (İşıqlar) */
-body::before {
-  content: '';
-  position: fixed; top: -20%; left: -10%; width: 50vw; height: 50vw;
-  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-  z-index: -1; filter: blur(50px); opacity: 0.6;
-}
-body::after {
-  content: '';
-  position: fixed; bottom: 0; right: -10%; width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(96, 239, 255, 0.1) 0%, transparent 70%);
-  z-index: -1; filter: blur(60px); opacity: 0.5;
+.container{max-width:480px;margin:auto;padding:30px 20px 20px;} 
+
+.page{display:none; opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);}
+.page.active{display:block; opacity: 1; transform: translateY(0) scale(1); animation: enterPage 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;}
+@keyframes enterPage{
+  0% { opacity: 0; transform: translateY(20px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.container { max-width: 480px; margin: auto; padding: 30px 20px 20px; }
-
-/* Səhifə Animasiyası */
-.page { display: none; animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-.page.active { display: block; }
-@keyframes scaleIn { 
-    from { opacity: 0; transform: translateY(20px) scale(0.95); } 
-    to { opacity: 1; transform: translateY(0) scale(1); } 
+/* YÜKLƏNMƏ EKRANI */
+#loadingScreen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: var(--bg-color); display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 99999; transition: opacity 0.6s ease, visibility 0.6s ease;
 }
-
-/* --- YENİ VİRTUAL BALANS KARTI --- */
-.virtual-card {
-  background: var(--vcard-bg);
-  border-radius: 24px;
-  padding: 25px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-  border: 1px solid var(--vcard-border);
-  margin-bottom: 25px;
-  transition: transform 0.3s;
+.loader-icon { width: 80px; height: 80px; color: var(--accent); animation: pulseGlow 1.5s infinite alternate; filter: drop-shadow(0 0 20px var(--accent-shadow)); margin-bottom: 20px; }
+@keyframes pulseGlow {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    100% { transform: scale(1.1); opacity: 1; }
 }
-.virtual-card:active { transform: scale(0.98); }
-.virtual-card::before {
-  content: ''; position: absolute; top: 0; right: 0; width: 150px; height: 150px;
-  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-  border-radius: 50%; transform: translate(30%, -30%);
-}
-.vcard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-.vcard-title { font-size: 14px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
-.vcard-logo { font-size: 20px; font-weight: 900; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.vcard-body { display: flex; flex-direction: column; }
-.vcard-balance-wrap { display: flex; align-items: baseline; gap: 8px; }
-.vcard-currency { font-size: 28px; font-weight: 700; color: var(--accent-primary); }
-.vcard-amount { font-size: 46px; font-weight: 800; color: #FFF; letter-spacing: -1px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-.vcard-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 15px; }
-.vcard-user { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.8); letter-spacing: 1px; }
-.vcard-chip { width: 35px; height: 25px; background: rgba(255,255,255,0.2); border-radius: 6px; position: relative; overflow: hidden; }
-.vcard-chip::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(0,0,0,0.2); }
-.vcard-chip::before { content: ''; position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: rgba(0,0,0,0.2); }
+.loading-text { font-size: 22px; font-weight: 800; color: var(--text-main); letter-spacing: 2px; text-transform: uppercase; }
 
-/* --- ÜMUMİ KART DİZAYNI --- */
+/* KART DİZAYNLARI */
 .glass-card {
   background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  -webkit-backdrop-filter: var(--card-blur);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
   border-radius: 28px;
-  padding: 30px 25px;
+  padding: 25px;
   margin-bottom: 20px;
-  box-shadow: var(--card-shadow);
-  transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* BALANS KARTI */
+.balance-card {
+  text-align: center;
   position: relative;
+  overflow: hidden;
+  padding: 40px 20px;
 }
-.glass-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 10px; color: #FFF; }
-.glass-card p { color: var(--text-muted); font-size: 15px; font-weight: 500; line-height: 1.5; }
-
-/* Çıxarış Üsulları */
-.method-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
-.method {
-  padding: 25px 15px; border-radius: 20px; background: rgba(255,255,255,0.02);
-  border: 1px solid var(--card-border); text-align: center; cursor: pointer;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: all 0.3s; position: relative; overflow: hidden;
+.balance-card::before {
+  content: ''; position: absolute; top: -50px; left: -50px; width: 150px; height: 150px;
+  background: var(--accent); opacity: 0.1; filter: blur(50px); border-radius: 50%;
 }
-.method::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--accent-gradient); opacity: 0; transition: 0.3s; z-index: -1; }
-.method:hover { border-color: var(--accent-primary); box-shadow: 0 10px 30px var(--accent-glow); transform: translateY(-4px); }
-.method:active { transform: scale(0.95); }
-.method-logo { width: 55px; height: 55px; margin-bottom: 15px; border-radius: 16px; object-fit: contain; background: #FFF; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-.method-text { font-size: 15px; font-weight: 700; color: #FFF; }
-.min-withdraw-label { margin-top: 10px; font-size: 11px; font-weight: 800; color: var(--accent-secondary); background: rgba(96, 239, 255, 0.1); padding: 5px 12px; border-radius: 10px; }
+.balance-title {
+  font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 10px;
+}
+.amount-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.amount { font-size: 52px; font-weight: 800; color: var(--text-main); letter-spacing: -1.5px; line-height: 1; }
+.currency { font-size: 28px; font-weight: 700; color: var(--accent); margin-top: -10px; }
 
-/* BOŞ GÖREVLƏR SƏHİFƏSİ ÜÇÜN */
-.empty-state { text-align: center; padding: 50px 20px; }
-.empty-icon { font-size: 70px; margin-bottom: 20px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 10px 20px var(--accent-glow)); }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-.empty-state h2 { font-size: 26px; font-weight: 900; color: #FFF; margin-bottom: 15px; }
-.empty-state p { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+/* REKLAM KARTI */
+.ad-card {
+  text-align: center;
+  padding: 35px 25px;
+}
+.ad-card h2 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+.ad-card p { font-size: 15px; color: var(--text-muted); font-weight: 500; margin-bottom: 20px; }
 
-/* STATİSTİKA KARTLARI */
-.stats { display: flex; justify-content: space-between; margin-top: 25px; gap: 15px; }
-.stat { background: rgba(0,0,0,0.2); border-radius: 20px; padding: 20px 15px; flex: 1; border: 1px solid var(--card-border); text-align: center; }
-.stat span { display: block; font-size: 28px; font-weight: 800; color: #FFF; margin-bottom: 5px; }
-.stat label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.stats-row { display: flex; justify-content: space-between; gap: 15px; margin-top: 20px; }
+.stat-box { background: var(--input-bg); border-radius: 20px; padding: 15px; flex: 1; border: 1px solid var(--card-border); }
+.stat-box span { display: block; font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 5px; }
+.stat-box label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-.progress { height: 12px; background: rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; margin-top: 25px; border: 1px solid var(--card-border); }
-.progress-fill { height: 100%; background: var(--accent-gradient); width: 0%; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 12px; box-shadow: 0 0 10px var(--accent-primary); }
+.progress-bar-wrap { height: 12px; background: var(--input-bg); border-radius: 20px; overflow: hidden; margin-top: 25px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+.progress-fill { height: 100%; background: var(--accent-gradient); width: 0%; transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); border-radius: 20px; box-shadow: 0 0 10px var(--accent-shadow); }
+.progress-text { margin-top: 15px; font-weight: 600; font-size: 14px; color: var(--text-muted); }
+.progress-text span { color: var(--text-main); font-weight: 800; }
 
-/* ƏSAS DÜYMƏLƏR */
 .main-btn {
-  width: 100%; padding: 20px; margin-top: 25px; font-size: 18px; font-weight: 800;
-  border: none; border-radius: 24px; color: #000; cursor: pointer;
-  background: var(--accent-gradient); box-shadow: 0 10px 30px var(--accent-glow);
+  width: 100%; margin-top: 25px; padding: 20px; font-size: 18px; font-weight: 700; border: none; border-radius: 20px;
+  color: #fff; background: var(--accent-gradient); cursor: pointer;
+  box-shadow: 0 10px 25px var(--accent-shadow);
   display: flex; align-items: center; justify-content: center; gap: 12px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.main-btn:active:not(:disabled) { transform: scale(0.96); box-shadow: 0 5px 15px var(--accent-glow); }
-.main-btn.waiting { background: rgba(255,255,255,0.1) !important; color: var(--text-muted) !important; cursor: not-allowed !important; box-shadow: none !important; }
+.main-btn:active:not(:disabled) { transform: scale(0.95); box-shadow: 0 5px 15px var(--accent-shadow); }
+.main-btn.waiting { background: var(--input-bg) !important; color: var(--text-muted) !important; box-shadow: none !important; cursor: not-allowed !important; border: 1px solid var(--card-border) !important; }
 
-#msg { margin-top: 20px; font-size: 15px; font-weight: 700; color: var(--danger); text-align: center; }
-
-/* FLOATING MENU (YENİ DİZAYN) */
-.menu {
-  position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 440px;
-  display: flex; justify-content: space-between; background: var(--nav-bg); padding: 8px;
-  border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 999; border: 1px solid var(--card-border);
+/* ALT MENYU */
+.menu-nav {
+  position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 440px;
+  display: flex; justify-content: space-around; background: var(--menu-bg); padding: 8px;
+  border-radius: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--card-border); z-index: 999;
 }
-.menu button {
-  flex: 1; padding: 12px 0; border: none; border-radius: 22px; background: transparent;
-  color: var(--text-muted); cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60px;
+body.dark-theme .menu-nav { box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+.menu-nav button {
+  flex: 1; padding: 12px 0; border: none; border-radius: 24px; background: transparent; color: var(--text-muted);
+  cursor: pointer; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; gap: 6px;
 }
-.menu button .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; transition: 0.4s; }
-.menu button .nav-text { font-size: 11px; font-weight: 600; transition: 0.4s; opacity: 0; height: 0; overflow: hidden; }
-.menu button.active { background: rgba(255,255,255,0.08); color: var(--accent-primary); pointer-events: none; }
-.menu button.active .nav-icon { transform: translateY(-3px); filter: drop-shadow(0 0 8px var(--accent-glow)); }
-.menu button.active .nav-text { opacity: 1; height: 14px; margin-top: 2px; }
-
-/* --- PROFIL SƏHİFƏSİ --- */
-.profile-header-wrap { display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 1px solid var(--card-border); }
-.profile-avatar {
-  width: 90px; height: 90px; background: var(--vcard-bg); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; color: var(--accent-primary);
-  box-shadow: 0 0 30px rgba(0, 255, 135, 0.15); position: relative; border: 2px solid var(--accent-primary);
-  margin-bottom: 15px; transition: 0.3s;
+.menu-nav button i { width: 24px; height: 24px; transition: 0.3s; }
+.menu-nav button span { font-size: 11px; font-weight: 600; transition: 0.3s; }
+.menu-nav button.active {
+  background: var(--accent-gradient); color: #fff; box-shadow: 0 8px 20px var(--accent-shadow); transform: translateY(-4px); pointer-events: none;
 }
-.profile-avatar .default-icon { width: 40px; height: 40px; stroke-width: 2px; }
-.profile-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
-.profile-avatar.has-image img { display: block; }
-.profile-avatar.has-image .default-icon { display: none; }
-.profile-name { font-size: 24px; font-weight: 800; color: #FFF; margin-bottom: 5px; text-align: center; }
-.profile-id { font-size: 13px; font-weight: 600; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 10px; display: inline-block; }
+.menu-nav button.active i { transform: scale(1.1); }
 
-.profile-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.profile-stat-box { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 20px; border: 1px solid var(--card-border); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.profile-stat-box i { margin-bottom: 10px; color: var(--accent-secondary); width: 24px; height: 24px; }
-.profile-stat-val { font-size: 22px; font-weight: 800; color: #FFF; margin-bottom: 5px; }
-.profile-stat-lbl { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+/* BOŞ GÖREVLƏR SƏHİFƏSİ */
+.empty-state { text-align: center; padding: 50px 20px; }
+.empty-state-icon { width: 100px; height: 100px; background: var(--input-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; color: var(--accent); box-shadow: inset 0 4px 10px rgba(0,0,0,0.05); }
+.empty-state-icon i { width: 50px; height: 50px; }
+.empty-state h3 { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 12px; }
+.empty-state p { font-size: 15px; color: var(--text-muted); font-weight: 500; line-height: 1.6; }
 
-/* --- AYARLAR SƏHİFƏSİ --- */
-.setting-item-row { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px solid var(--card-border); margin-bottom: 15px; }
-.setting-info-col { display: flex; align-items: center; gap: 15px; font-weight: 600; font-size: 16px; color: #FFF; }
-.setting-icon-col { display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); width: 44px; height: 44px; border-radius: 14px; color: var(--accent-primary); }
+/* CÜZDAN VƏ ÇIXARIŞ */
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+.method-card {
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 25px 15px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  cursor: pointer; transition: all 0.3s; box-shadow: var(--glass-shadow);
+}
+.method-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 12px 30px var(--accent-shadow); }
+.method-card:active { transform: scale(0.96); }
+.method-logo { width: 55px; height: 55px; border-radius: 16px; object-fit: cover; margin-bottom: 15px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 5px;}
+.method-name { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+.method-min { font-size: 11px; font-weight: 700; color: var(--danger); background: rgba(255, 77, 77, 0.1); padding: 5px 10px; border-radius: 10px; }
 
-.lang-switch { display: flex; gap: 5px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 14px; border: 1px solid var(--card-border); }
-.lang-switch button { border: none; background: transparent; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 14px; color: var(--text-muted); cursor: pointer; transition: all 0.3s; }
-.lang-switch button.active { background: var(--accent-gradient); color: #000; box-shadow: 0 4px 15px var(--accent-glow); }
+#formContainer { display: none; }
+.back-btn {
+  background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-main);
+  padding: 12px 20px; border-radius: 16px; font-weight: 600; font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 25px; transition: 0.3s; width: max-content;
+}
+.back-btn:active { transform: scale(0.95); }
 
-.modal-btn-action { width: 100%; padding: 18px; border-radius: 20px; border: none; font-weight: 700; font-size: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; color: #FFF; transition: all 0.2s; }
-.modal-btn-action:active { transform: scale(0.96); }
-.modal-btn-action.copy-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); }
-.modal-btn-action.whatsapp-btn { background: #25D366; color: #000; }
-.modal-btn-action.telegram-btn { background: #0088cc; }
+.input-field {
+  width: 100%; padding: 20px; margin-bottom: 15px; border-radius: 18px; border: 2px solid transparent;
+  background: var(--input-bg); color: var(--text-main); font-size: 16px; font-weight: 600; outline: none; transition: 0.3s;
+}
+.input-field:focus { border-color: var(--accent); background: var(--card-bg); box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.1); }
+body.dark-theme .input-field:focus { box-shadow: 0 0 0 4px rgba(0, 230, 118, 0.1); }
 
-/* FORMLAR VƏ INPUTLAR */
-#form { display: none; }
-.back-btn-ui { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: #FFF; font-weight: 600; font-size: 14px; border-radius: 14px; padding: 12px 20px; width: max-content; margin: 0 0 25px 0; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; }
-.back-btn-ui:active { transform: scale(0.95); }
+.network-selector { display: flex; gap: 10px; margin-bottom: 15px; }
+.net-btn { flex: 1; padding: 15px; border-radius: 16px; border: 2px solid var(--card-border); background: var(--input-bg); font-weight: 700; color: var(--text-muted); transition: 0.3s; cursor: pointer; }
+.net-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0, 180, 216, 0.05); }
+body.dark-theme .net-btn.active { background: rgba(0, 230, 118, 0.05); }
 
-#form input { width: 100%; padding: 22px; margin: 12px 0; border-radius: 20px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.2); color: #FFF; font-size: 16px; font-weight: 600; outline: none; transition: all 0.3s; font-family: 'Outfit', sans-serif; }
-#form input:focus { border-color: var(--accent-primary); box-shadow: 0 0 15px rgba(0, 255, 135, 0.1); background: rgba(255,255,255,0.02); }
-#form input::placeholder { color: var(--text-muted); font-weight: 400; }
+.fee-box { padding: 20px; background: var(--input-bg); border-radius: 18px; margin-bottom: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); display: none; }
+.fee-box strong { color: var(--text-main); }
+.fee-box .total { font-size: 16px; color: var(--accent); font-weight: 800; margin-top: 10px; display: block; }
 
-.network-btn { flex: 1; padding: 16px; border-radius: 16px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.2); font-weight: 700; font-size: 15px; color: var(--text-muted); transition: 0.3s; cursor: pointer; }
-.network-btn.active { border-color: var(--accent-primary); color: var(--accent-primary); background: rgba(0, 255, 135, 0.05); }
-
-.fee-calc-box { font-size: 14px; font-weight: 500; color: var(--text-muted); margin: 15px 0 25px; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px dashed var(--card-border); display: none; }
-.fee-calc-box span { color: #FFF; font-weight: 700; }
-
-.alert { margin-top: 20px; padding: 18px; border-radius: 16px; display: none; font-weight: 600; text-align: center; font-size: 15px; animation: scaleIn 0.3s ease; }
-.alert.error { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,59,48,0.3); }
-.alert.success { background: rgba(0, 255, 135, 0.1); color: var(--accent-primary); border: 1px solid rgba(0, 255, 135, 0.3); }
-
-/* TARİXÇƏ */
-.history-card { background: rgba(255,255,255,0.02); border-radius: 24px; padding: 25px 20px; margin-top: 30px; border: 1px solid var(--card-border); }
-.history-title { font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 20px; text-align: center; }
-.history-list { display: flex; flex-direction: column; gap: 12px; }
-.history-item { background: rgba(0,0,0,0.2); padding: 16px; border-radius: 16px; border: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
-.history-method { font-weight: 700; font-size: 15px; color: #FFF; display: flex; align-items: center; gap: 10px; }
-.history-method img { width: 24px; height: 24px; border-radius: 6px; }
-.history-date { font-size: 12px; color: var(--text-muted); margin-top: 4px;}
-.history-amount { font-weight: 800; font-size: 16px; color: var(--accent-primary); text-align: right;}
-.history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.1); color: var(--text-muted); margin-top: 4px; display: inline-block;}
+.history-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.history-item { background: var(--input-bg); padding: 15px 20px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--card-border);}
+.history-left { display: flex; flex-direction: column; gap: 5px; }
+.history-type { font-weight: 700; font-size: 15px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+.history-type img { width: 24px; height: 24px; border-radius: 6px; }
+.history-date { font-size: 12px; color: var(--text-muted); }
+.history-right { text-align: right; }
+.history-amount { font-weight: 800; font-size: 16px; color: var(--accent); }
+.history-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; background: rgba(0, 0, 0, 0.05); color: var(--text-muted); margin-top: 4px; display: inline-block; }
+body.dark-theme .history-status { background: rgba(255, 255, 255, 0.1); }
 .history-empty { text-align: center; font-size: 14px; color: var(--text-muted); padding: 30px 20px; font-weight: 500; }
 
-/* MÜKƏMMƏL YÜKLƏNMƏ EKRANI */
-#loadingScreen {
-    position: fixed; top: 0; left: 0; width: 100%; height: var(--tg-viewport-stable-height, 100vh);
-    background: var(--bg-color); display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 99999; transition: opacity 0.6s, visibility 0.6s;
-}
-.loading-logo-box {
-    width: 120px; height: 120px; border-radius: 30px; background: var(--card-bg); border: 1px solid var(--card-border);
-    display: flex; align-items: center; justify-content: center; margin-bottom: 30px;
-    box-shadow: 0 0 40px var(--accent-glow); animation: pulseGlow 2s infinite alternate;
-}
-.loading-logo-box i { color: var(--accent-primary); width: 60px; height: 60px; }
-@keyframes pulseGlow { 0% { transform: scale(0.95); box-shadow: 0 0 20px var(--accent-glow); } 100% { transform: scale(1.05); box-shadow: 0 0 60px var(--accent-glow); } }
-.loading-text { font-size: 20px; font-weight: 800; color: #FFF; letter-spacing: 3px; text-transform: uppercase; }
-.loading-dots::after { content: '.'; animation: dots 1.5s steps(4, end) infinite; }
-@keyframes dots { 0%, 20% { color: transparent; text-shadow: .25em 0 0 transparent, .5em 0 0 transparent; } 40% { color: var(--accent-primary); text-shadow: .25em 0 0 transparent, .5em 0 0 transparent; } 60% { text-shadow: .25em 0 0 var(--accent-primary), .5em 0 0 transparent; } 80%, 100% { text-shadow: .25em 0 0 var(--accent-primary), .5em 0 0 var(--accent-primary); } }
+/* BİLDİRİŞLƏR */
+.alert { margin-top: 20px; padding: 15px; border-radius: 16px; display: none; font-weight: 600; text-align: center; font-size: 14px; }
+.alert.error { background: rgba(255, 77, 77, 0.1); color: var(--danger); border: 1px solid rgba(255, 77, 77, 0.3); }
+.alert.success { background: rgba(0, 200, 83, 0.1); color: var(--success); border: 1px solid rgba(0, 200, 83, 0.3); }
 
-/* YENİ BİLDİRİŞLƏR */
-#taskNotification {
-    position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px);
-    background: var(--nav-bg); border: 1px solid var(--accent-primary); color: #FFF;
-    padding: 15px 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    font-weight: 600; font-size: 14px; opacity: 0; visibility: hidden; z-index: 10000;
-    transition: all 0.4s; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(10px);
-}
-.notification-show { opacity: 1 !important; visibility: visible !important; transform: translate(-50%, 0) !important; }
-#taskNotification i { color: var(--accent-primary); }
+/* PROFİL VƏ AYARLAR */
+.profile-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
+.profile-avatar { width: 90px; height: 90px; border-radius: 50%; background: var(--input-bg); display: flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 15px; border: 3px solid var(--accent); overflow: hidden; }
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.profile-avatar.has-image img { display: block; }
+.profile-avatar.has-image i { display: none; }
+.profile-name { font-size: 22px; font-weight: 800; color: var(--text-main); text-align: center; }
+.profile-id { font-size: 13px; color: var(--text-muted); font-weight: 600; background: var(--input-bg); padding: 5px 12px; border-radius: 12px; margin-top: 5px; }
 
-#adRewardNotificationContainer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); z-index: 10; pointer-events: none; width: max-content; }
-.reward-msg {
-    background: var(--accent-gradient); color: #000; padding: 10px 20px; border-radius: 12px;
-    box-shadow: 0 10px 25px var(--accent-glow); font-weight: 800; font-size: 13px;
-    opacity: 0; transform: translateY(-10px); transition: all 0.4s; white-space: nowrap;
-}
-.reward-msg.show { opacity: 1; transform: translateY(0); }
+.settings-row { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: var(--input-bg); border-radius: 20px; border: 1px solid var(--card-border); margin-bottom: 15px; }
+.settings-info { display: flex; align-items: center; gap: 15px; font-weight: 600; color: var(--text-main); }
+.settings-icon { width: 44px; height: 44px; background: var(--card-bg); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+
+.switch-group { display: flex; gap: 5px; background: var(--card-bg); padding: 5px; border-radius: 14px; border: 1px solid var(--card-border); }
+.switch-group button { border: none; background: transparent; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 14px; color: var(--text-muted); cursor: pointer; transition: 0.3s; }
+.switch-group button.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 4px 15px var(--accent-shadow); }
+
+.action-btn { width: 100%; padding: 18px; border-radius: 18px; border: none; font-weight: 700; font-size: 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; color: #FFF; transition: 0.3s; }
+.action-btn:active { transform: scale(0.96); }
+.btn-copy { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--card-border); }
+.btn-wp { background: #25D366; }
+.btn-tg { background: #0088cc; }
+
+#toast { position: fixed; top: 20px; left: 50%; transform: translate(-50%, -20px); background: var(--text-main); color: var(--bg-color); padding: 12px 25px; border-radius: 20px; font-weight: 600; font-size: 14px; opacity: 0; visibility: hidden; transition: 0.4s; z-index: 10000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+#toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
 </style>
 </head>
-<body id="body">
+<body>
+
+<div id="loadingScreen">
+  <i data-lucide="zap" class="loader-icon"></i>
+  <div class="loading-text" id="loadingTextNode">Yüklənir</div>
+</div>
+
+<div id="toast"></div>
+
+<div class="container">
+  
+  <!-- AYARLAR -->
+  <div id="settingsPage" class="page">
+    <div class="glass-card">
+        <h2 style="font-size:24px; font-weight:800; margin-bottom:10px;" data-i18n="settings">Ayarlar</h2>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:25px;" data-i18n="settings_desc">Tətbiq seçimlərinizi tənzimləyin.</p>
+        
+        <div class="settings-row">
+            <div class="settings-info">
+                <div class="settings-icon"><i data-lucide="moon"></i></div>
+                <span data-i18n="theme">Tema</span>
+            </div>
+            <div class="switch-group">
+                <button id="btnThemeLight" onclick="setTheme('light')"><i data-lucide="sun" style="width:18px;"></i></button>
+                <button id="btnThemeDark" onclick="setTheme('dark')"><i data-lucide="moon" style="width:18px;"></i></button>
+            </div>
+        </div>
+
+        <div class="settings-row">
+            <div class="settings-info">
+                <div class="settings-icon"><i data-lucide="globe"></i></div>
+                <span data-i18n="lang">Dil</span>
+            </div>
+            <div class="switch-group">
+                <button id="btnLangAZ" onclick="setLang('az')">AZ</button>
+                <button id="btnLangTR" onclick="setLang('tr')">TR</button>
+            </div>
+        </div>
+
+        <h3 style="font-weight:800; margin: 35px 0 15px; font-size: 18px;" data-i18n="invite">Dostlarını Dəvət Et</h3>
+        <p style="margin-bottom: 20px; font-size: 13px; color: var(--text-muted);" data-i18n="invite_desc">Dostlarınızı dəvət edərək Manat Play icmasını böyüdün.</p>
+        
+        <button class="action-btn btn-copy" onclick="copyRefLink()"><i data-lucide="copy" style="color:var(--accent);"></i> <span data-i18n="copy">Linki Kopyala</span></button>
+        <button class="action-btn btn-wp" onclick="shareWhatsApp()"><i data-lucide="message-square"></i> <span data-i18n="wp">WhatsApp ilə Paylaş</span></button>
+        <button class="action-btn btn-tg" onclick="shareAppAction()"><i data-lucide="send"></i> <span data-i18n="tg">Telegram ilə Paylaş</span></button>
+    </div>
+  </div>
+
+  <!-- GÖREVLƏR -->
+  <div id="tasksPage" class="page">
+    <div class="glass-card empty-state">
+        <div class="empty-state-icon"><i data-lucide="rocket"></i></div>
+        <h3 data-i18n="tasks_coming_title">Tezliklə!</h3>
+        <p data-i18n="tasks_coming_desc">Burada yeni və yüksək qazanclı görəvlər əlavə ediləcək. Bizimlə qalın!</p>
+    </div>
+  </div>
+
+  <!-- ƏSAS SƏHİFƏ (REKLAMLAR) -->
+  <div id="adsPage" class="page active">
+    <div class="glass-card balance-card">
+        <div class="balance-title" data-i18n="balance">Balans</div>
+        <div class="amount-wrap">
+            <span class="amount bal-val">0.000</span>
+            <span class="currency bal-symbol">₼</span>
+        </div>
+    </div>
+    
+    <div class="glass-card ad-card">
+      <h2 data-i18n="ads_title">Gündəlik Reklamlar</h2>
+      <p data-i18n="ads_desc">Hər reklam izləyişi üçün <b style="color:var(--accent);" class="reward-text-b">0.002 ₼</b> qazanın</p>
+      
+      <div class="stats-row">
+        <div class="stat-box"><span id="adsCount">0</span><label data-i18n="watched">İzlənən</label></div>
+        <div class="stat-box"><span>50</span><label data-i18n="max">Maksimum</label></div>
+      </div>
+      
+      <div class="progress-bar-wrap"><div class="progress-fill" id="progress"></div></div>
+      <div class="progress-text"><span data-i18n="progress">İrəliləyiş</span>: <span id="progressTextSpan">0/50</span></div>
+      
+      <button id="adBtn" class="main-btn">
+          <i data-lucide="play-circle"></i>
+          <span data-i18n="watch_ad">Reklam İzlə</span>
+      </button>
+      <div id="msg" style="margin-top:15px; font-size:14px; font-weight:600; color:var(--danger);"></div>
+    </div>
+  </div>
+
+  <!-- CÜZDAN VƏ ÇIXARIŞ -->
+  <div id="walletPage" class="page">
+    <div class="glass-card" id="methodsView">
+        <h2 style="text-align:center; font-size: 22px; font-weight: 800;" data-i18n="withdraw_method">Çıxarış Üsulu</h2>
+        <p style="text-align:center; font-size: 14px; color: var(--text-muted); margin-top:5px;" data-i18n="where_to_receive">Ödənişi hara almaq istəyirsiniz?</p>
+        <div class="method-grid" id="methods"></div>
+    </div>
+
+    <div class="glass-card" id="formContainer">
+      <button id="backBtn" class="back-btn">
+        <i data-lucide="arrow-left" style="width:18px;"></i>
+        <span data-i18n="back">Geri</span>
+      </button>
+      
+      <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 20px;" data-i18n="enter_info">Məlumatları daxil et</h3>
+      
+      <div id="networkWrapper" style="display:none; margin-bottom: 20px;">
+          <p style="font-weight: 600; margin-bottom: 10px; color: var(--text-muted); font-size: 14px;" data-i18n="choose_network">Ağı seçin</p>
+          <div class="network-selector">
+              <button class="net-btn active" data-net="bep20">BEP20</button>
+              <button class="net-btn" data-net="ton">TON</button>
+          </div>
+      </div>
+
+      <input id="details" class="input-field" type="text" inputmode="numeric" placeholder="">
+      <input id="amount" class="input-field" type="number" step="0.001" placeholder="Məbləğ">
+      
+      <div id="feeCalcBox" class="fee-box">
+          <span data-i18n="fee">Komissiya (5%):</span> <strong id="feeAmount">0.00</strong> <strong class="feeCalcSymbol">₼</strong><br>
+          <span class="total"><span data-i18n="final_amount">Yekun:</span> <span id="receiveAmount">0.00</span> <span class="feeCalcSymbol">₼</span></span>
+      </div>
+
+      <button id="withdrawBtn" class="main-btn">
+        <i data-lucide="arrow-up-right"></i>
+        <span data-i18n="confirm_withdraw">Təsdiqlə və Çıxar</span>
+      </button>
+      <div id="alert" class="alert"></div>
+    </div>
+
+    <div class="glass-card">
+        <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 15px;" data-i18n="withdraw_history">Çıxarış Tarixçəsi</h3>
+        <div class="history-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- PROFİL SƏHİFƏSİ -->
+  <div id="profilePage" class="page">
+    <div class="glass-card profile-header">
+        <div class="profile-avatar">
+            <i data-lucide="user" style="width:40px;height:40px;"></i>
+            <img id="profileImage" src="" alt="Profile">
+        </div>
+        <div class="profile-name displayUsername">İstifadəçi</div>
+        <div class="profile-id">ID: <span id="displayUserId"></span></div>
+    </div>
+
+    <div class="glass-card">
+        <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 20px;" data-i18n="stats">Statistika</h3>
+        <div class="stats-row">
+            <div class="stat-box">
+                <span id="statTotalAds">0</span>
+                <label data-i18n="stat_ads">İzləndi</label>
+            </div>
+            <div class="stat-box" style="border-color: var(--accent); background: rgba(0, 180, 216, 0.05);">
+                <span id="statTotalAdEarn" style="color: var(--accent);">0.000 ₼</span>
+                <label data-i18n="stat_earn">Ümumi Qazanc</label>
+            </div>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ALT MENYU -->
+<div class="menu-nav">
+  <button onclick="showPage('settingsPage',this)">
+    <i data-lucide="settings"></i><span data-i18n="settings">Ayarlar</span>
+  </button>
+  <button onclick="showPage('tasksPage',this)">
+    <i data-lucide="layout-list"></i><span data-i18n="tasks">Görəvlər</span>
+  </button>
+  <button onclick="showPage('adsPage',this)" class="active">
+    <i data-lucide="zap"></i><span>Manat Play</span>
+  </button>
+  <button onclick="showPage('walletPage',this)">
+    <i data-lucide="wallet"></i><span data-i18n="wallet">Cüzdan</span>
+  </button>
+  <button onclick="showPage('profilePage',this)">
+    <i data-lucide="user"></i><span data-i18n="profile">Profil</span>
+  </button>
+</div>
 
 <script>
+lucide.createIcons();
+
 function safeGet(k,d=0){try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}}
 function safeSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
@@ -326,373 +463,76 @@ if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData
     }
 }
 
-try {
-    if(window.Telegram?.WebApp?.setHeaderColor) window.Telegram.WebApp.setHeaderColor('#05050A');
-    if(window.Telegram?.WebApp?.setBackgroundColor) window.Telegram.WebApp.setBackgroundColor('#05050A');
-} catch(e){}
-
 const LANG_KEY = 'lang_mplay_' + userRefId;
+const THEME_KEY = 'theme_mplay';
 let currentLang = safeGet(LANG_KEY, 'az'); 
 if(currentLang !== 'az' && currentLang !== 'tr') currentLang = 'az';
-</script>
 
-<!-- YÜKLƏNMƏ EKRANI -->
-<div id="loadingScreen" oncontextmenu="return false;">
-  <div class="loading-logo-box"><i data-lucide="zap"></i></div>
-  <div class="loading-text"><span id="loadingTextNode">Yüklənir</span><span class="loading-dots"></span></div>
-</div>
+let currentTheme = localStorage.getItem(THEME_KEY) || 'light';
+setTheme(currentTheme);
 
-<script>
-document.getElementById('loadingTextNode').textContent = currentLang === 'tr' ? 'Yükleniyor' : 'Yüklənir';
-</script>
-
-<div id="taskNotification">
-    <i data-lucide="check-circle-2"></i>
-    <span id="taskNotificationText"></span>
-</div>
-
-<div class="container">
-  <!-- AYARLAR -->
-  <div id="settingsPage" class="page">
-    <div class="glass-card">
-        <h2 data-i18n="settings">Ayarlar</h2>
-        <p style="margin-bottom: 25px;" data-i18n="settings_desc">Tətbiq seçimlərinizi tənzimləyin.</p>
-        
-        <div class="setting-item-row">
-            <div class="setting-info-col">
-                <div class="setting-icon-col"><i data-lucide="globe"></i></div>
-                <span data-i18n="lang">Dil</span>
-            </div>
-            <div class="lang-switch">
-                <button id="btnLangAZ" onclick="setLang('az')">AZ</button>
-                <button id="btnLangTR" onclick="setLang('tr')">TR</button>
-            </div>
-        </div>
-
-        <h3 style="font-weight:800; margin: 35px 0 15px; color: #FFF; font-size: 18px;" data-i18n="invite">Dostlarını Dəvət Et</h3>
-        <p style="margin-bottom: 15px; font-size: 13px; color: var(--text-muted);" data-i18n="invite_desc">Dostlarınızı dəvət edərək Manat Play icmasını böyüdün.</p>
-        
-        <div style="display:flex; flex-direction:column; gap:12px;">
-            <button class="modal-btn-action copy-btn" onclick="copyRefLink()">
-                <i data-lucide="copy" style="color: var(--accent-primary);"></i> <span data-i18n="copy">Linki Kopyala</span>
-            </button>
-            <button class="modal-btn-action whatsapp-btn" onclick="shareWhatsApp()">
-                <i data-lucide="message-square"></i> <span data-i18n="wp">WhatsApp ilə Paylaş</span>
-            </button>
-            <button class="modal-btn-action telegram-btn" onclick="shareAppAction()">
-                <i data-lucide="send"></i> <span data-i18n="tg">Telegram ilə Paylaş</span>
-            </button>
-        </div>
-    </div>
-  </div>
-
-  <!-- GÖREVLƏR (BOŞ) -->
-  <div id="tasksPage" class="page">
-    <div class="glass-card" style="padding: 40px 20px;">
-        <div class="empty-state">
-            <div class="empty-icon">🚀</div>
-            <h2 data-i18n="tasks_coming_title">Tezliklə!</h2>
-            <p data-i18n="tasks_coming_desc">Burada yeni və yüksək qazanclı görəvlər əlavə ediləcək. Bizimlə qalın!</p>
-        </div>
-    </div>
-  </div>
-
-  <!-- ƏSAS QAZANC SƏHİFƏSİ (REKLAMLAR) -->
-  <div id="adsPage" class="page active">
-    <!-- VIRTUAL KART -->
-    <div class="virtual-card">
-        <div class="vcard-header">
-            <span class="vcard-title">Manat Play Kartı</span>
-            <span class="vcard-logo"><i data-lucide="zap" style="width:24px;height:24px;color:var(--accent-primary);"></i></span>
-        </div>
-        <div class="vcard-body">
-            <div class="vcard-balance-wrap">
-                <span class="vcard-currency bal-symbol">₼</span>
-                <span class="vcard-amount bal-val">0.000</span>
-            </div>
-        </div>
-        <div class="vcard-footer">
-            <span class="vcard-user displayUsername">İstifadəçi</span>
-            <div class="vcard-chip"></div>
-        </div>
-    </div>
-    
-    <div class="glass-card"> 
-      <div id="adRewardNotificationContainer"></div>
-
-      <h2 data-i18n="ads_title">Gündəlik Reklamlar</h2>
-      <p id="adRewardText" data-i18n="ads_desc">Hər reklam izləyişi üçün <b style="color:var(--accent-primary);" class="reward-text-b">0.002 ₼</b> qazanın</p>
-      
-      <div class="stats">
-        <div class="stat"><span id="adsCount">0</span><label data-i18n="watched">İzlənən</label></div>
-        <div class="stat"><span>50</span><label data-i18n="max">Maksimum</label></div>
-      </div>
-      
-      <div class="progress"><div class="progress-fill" id="progress"></div></div>
-      <p style="margin-top:15px; font-weight:600; color: var(--text-muted); font-size: 14px; text-align: center;"><span data-i18n="progress">İrəliləyiş</span>: <span id="progressTextSpan" style="color: var(--accent-primary); font-weight: 800;">0/50</span></p>
-      
-      <button id="adBtn" class="main-btn">
-          <i data-lucide="play-circle" style="width: 24px; height: 24px;"></i>
-          <span data-i18n="watch_ad">Reklam İzlə</span>
-      </button>
-      <div id="msg"></div> 
-    </div>
-  </div>
-  
-  <!-- CÜZDAN VƏ ÇIXARIŞ -->
-  <div id="walletPage" class="page">
-    <div class="virtual-card" style="padding: 20px;">
-        <div class="vcard-header" style="margin-bottom: 15px;">
-            <span class="vcard-title" data-i18n="wallet">Cüzdan</span>
-            <i data-lucide="wallet" style="color:var(--accent-primary);"></i>
-        </div>
-        <div class="vcard-balance-wrap">
-            <span class="vcard-currency bal-symbol">₼</span>
-            <span class="vcard-amount bal-val" style="font-size:36px;">0.000</span>
-        </div>
-    </div>
-    
-    <div id="methodsContainer" class="glass-card">
-        <h2 style="text-align:center; font-size:22px;" data-i18n="withdraw_method">Çıxarış Üsulu</h2>
-        <p style="text-align:center; margin-bottom: 20px;" data-i18n="where_to_receive">Ödənişi hara almaq istəyirsiniz?</p>
-        <div class="method-list" id="methods"></div>
-    </div>
-
-    <div id="form" class="glass-card">
-      <button id="backBtn" class="back-btn-ui">
-        <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
-        <span data-i18n="back">Geri</span>
-      </button>
-      
-      <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 20px;" data-i18n="enter_info">Məlumatları daxil et</h3>
-      
-      <div id="networkWrapper" style="display:none; margin-bottom: 20px;">
-          <p style="font-weight: 600; margin-bottom: 10px; color: var(--text-muted);" data-i18n="choose_network">Ağı seçin</p>
-          <div style="display: flex; gap: 10px;">
-              <button type="button" class="network-btn" data-net="bep20">BEP20</button>
-              <button type="button" class="network-btn" data-net="ton">TON</button>
-          </div>
-      </div>
-
-      <input id="details" type="text" inputmode="numeric" placeholder="">
-      <input id="amount" type="number" step="0.001" placeholder="Məbləğ">
-      
-      <div id="feeCalcBox" class="fee-calc-box">
-          <span data-i18n="fee">Komissiya (5%):</span> <span id="feeAmount" style="font-weight: 800;">0.00</span> <span class="feeCalcSymbol">₼</span><br><br>
-          <span style="font-size: 15px;"><span data-i18n="final_amount">Yekun:</span> <span id="receiveAmount" style="color: var(--accent-primary); font-weight: 900; font-size: 18px;">0.00</span> <span class="feeCalcSymbol" style="color: var(--accent-primary);">₼</span></span>
-      </div>
-
-      <button id="withdrawBtn" class="main-btn">
-        <i data-lucide="arrow-up-right"></i>
-        <span data-i18n="confirm_withdraw">Təsdiqlə və Çıxar</span>
-      </button>
-      <div id="alert" class="alert"></div>
-    </div>
-
-    <div class="history-card" id="historyCard">
-        <h3 class="history-title" data-i18n="withdraw_history">Çıxarış Tarixçəsi</h3>
-        <div class="history-list" id="historyList"></div>
-    </div>
-  </div>
-
-  <!-- PROFİL SƏHİFƏSİ -->
-  <div id="profilePage" class="page">
-    <div class="glass-card" id="profileMainView">
-        <div class="profile-header-wrap">
-            <div class="profile-avatar">
-                <i data-lucide="user" class="default-icon"></i>
-                <img id="profileImage" src="" alt="Profile" draggable="false">
-            </div>
-            <div>
-                <div class="profile-name displayUsername">İstifadəçi</div>
-                <div class="profile-id">ID: <span id="displayUserId"></span></div>
-            </div>
-        </div>
-
-        <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 20px;" data-i18n="stats">Statistika</h3>
-        <div class="profile-stats-grid">
-            <div class="profile-stat-box">
-                <i data-lucide="eye"></i>
-                <div class="profile-stat-val" id="statTotalAds">0</div>
-                <div class="profile-stat-lbl" data-i18n="stat_ads">İzləndi</div>
-            </div>
-            <div class="profile-stat-box" style="grid-column: span 2; border-color: var(--accent-primary); background: rgba(0, 255, 135, 0.05);">
-                <i data-lucide="coins" style="color: var(--accent-primary); width: 28px; height: 28px;"></i>
-                <div class="profile-stat-val" id="statTotalAdEarn" style="color: var(--accent-primary); font-size: 28px;">0.000 ₼</div>
-                <div class="profile-stat-lbl" data-i18n="stat_earn">Ümumi Qazanc</div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
-
-<!-- ALT MENYU -->
-<div class="menu">
-  <button onclick="showPage('settingsPage',this)" data-page-id="settingsPage">
-    <i data-lucide="settings" class="nav-icon"></i>
-    <span class="nav-text" data-i18n="settings">Ayarlar</span>
-  </button>
-  <button onclick="showPage('tasksPage',this)" data-page-id="tasksPage">
-    <i data-lucide="layout-list" class="nav-icon"></i>
-    <span class="nav-text" data-i18n="tasks">Görəvlər</span>
-  </button>
-  <button onclick="showPage('adsPage',this)" class="active" data-page-id="adsPage">
-    <i data-lucide="zap" class="nav-icon"></i>
-    <span class="nav-text">Manat Play</span>
-  </button>
-  <button onclick="showPage('walletPage',this)" data-page-id="walletPage">
-    <i data-lucide="wallet" class="nav-icon"></i>
-    <span class="nav-text" data-i18n="wallet">Cüzdan</span>
-  </button>
-  <button onclick="showPage('profilePage',this)" data-page-id="profilePage">
-    <i data-lucide="user" class="nav-icon"></i>
-    <span class="nav-text" data-i18n="profile">Profil</span>
-  </button>
-</div>
-
-<script>
-lucide.createIcons();
+/* --- YÜKLƏNMƏ EKRANININ GİZLƏDİLMƏSİ (BU HİSSƏ ƏSKİK İDİ) --- */
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const loader = document.getElementById('loadingScreen');
+        if (loader) {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+            setTimeout(() => { loader.style.display = 'none'; }, 600);
+        }
+    }, 1500); // 1.5 saniyə sonra açılacaq
+});
 
 const i18n = {
     az: {
-        loading: "Yüklənir",
-        settings: "Ayarlar",
-        settings_desc: "Tətbiq seçimlərinizi tənzimləyin.",
-        lang: "Dil",
-        invite: "Dostlarını Dəvət Et",
-        invite_desc: "Dostlarınızı dəvət edərək Manat Play icmasını böyüdün.",
-        copy: "Linki Kopyala",
-        wp: "WhatsApp ilə Paylaş",
-        tg: "Telegram ilə Paylaş",
-        
-        tasks: "Görəvlər",
-        tasks_coming_title: "Tezliklə!",
-        tasks_coming_desc: "Burada yeni və yüksək qazanclı görəvlər əlavə ediləcək. Bizimlə qalın!",
-        
-        ads_title: "Gündəlik Reklamlar",
-        ads_desc: "Hər reklam izləyişi üçün <b style='color:var(--accent-primary);' class='reward-text-b'>0.002 ₼</b> qazanın",
-        watched: "İzlənən",
-        max: "Maksimum",
-        progress: "İrəliləyiş",
-        watch_ad: "Reklam İzlə",
-        watching: "Gözlənilir...",
-        watching_ad: "İzlənir...",
-        limit_reached: "Limit Doldu",
-        
-        wallet: "Cüzdan",
-        withdraw_method: "Çıxarış Üsulu",
-        where_to_receive: "Ödənişi hara almaq istəyirsiniz?",
-        min_withdraw: "Min",
-        back: "Geri",
-        enter_info: "Məlumatları daxil et",
-        choose_network: "Ağı seçin",
-        fee: "Komissiya (5%):",
-        final_amount: "Yekun:",
-        confirm_withdraw: "Təsdiqlə və Çıxar",
-        withdraw_history: "Çıxarış Tarixçəsi",
-        history_empty: "Keçmiş boşdur",
-        status_pending: "Gözləyir",
-        
-        profile: "Profil",
-        stats: "Statistika",
-        stat_ads: "İzləndi",
-        stat_earn: "Ümumi Qazanc",
-        
-        msg_limit: "📣 Günlük limitə çatdınız!",
-        msg_copied: "✅ Referal linki kopyalandı!",
-        msg_copy_err: "❌ Kopyalama xətası!",
-        err_method: "Çıxarış üsulunu seçin",
-        err_network: "Zəhmət olmasa ağ seçin",
-        err_bank: "Kart nömrəsi tam 16 rəqəm olmalıdır",
-        err_phone: "Nömrə tam 10 rəqəm olmalıdır",
-        err_usdt: "Adres düzgün deyil",
-        err_amount: "Düzgün məbləğ daxil edin",
-        err_min: "Minimum çıxarış",
-        err_bal: "Balansınızda kifayət qədər vəsait yoxdur",
-        success_withdraw: "Çıxarış tələbi göndərildi!",
-        ad_reward_text: "🎉 <b>{reward}</b> qazandınız!",
-        
-        share_text: `🔥 Pul qazanmaq heç bu qədər rahat olmamışdı. Manat Play ilə hər şey sənin nəzarətində!\n\n💡 Sadəcə bir neçə saniyəlik reklamları izləyərək balansını artır. Heç bir çətinlik yoxdur.\n\n👇 İndi qoşul və ilk qazancını əldə et:\n{link}\n\n📲 Topladığın məbləği rahat şəkildə çıxara bilərsən.\n\n⚡ Manat Play ilə qazancını bu gündən başlat!`
+        loading: "YÜKLƏNİR", settings: "Ayarlar", settings_desc: "Tətbiq seçimlərinizi tənzimləyin.",
+        lang: "Dil", theme: "Tema", balance: "Balans",
+        invite: "Dostlarını Dəvət Et", invite_desc: "Dostlarınızı dəvət edərək icmanı böyüdün.",
+        copy: "Linki Kopyala", wp: "WhatsApp ilə Paylaş", tg: "Telegram ilə Paylaş",
+        tasks: "Görəvlər", tasks_coming_title: "Tezliklə!", tasks_coming_desc: "Burada yeni və yüksək qazanclı görəvlər əlavə ediləcək.",
+        ads_title: "Gündəlik Reklamlar", ads_desc: "Hər reklam izləyişi üçün <b style='color:var(--accent);' class='reward-text-b'>0.002 ₼</b> qazanın",
+        watched: "İzlənən", max: "Maksimum", progress: "İrəliləyiş", watch_ad: "Reklam İzlə", watching_ad: "İzlənir...", limit_reached: "Limit Doldu",
+        wallet: "Cüzdan", withdraw_method: "Çıxarış Üsulu", where_to_receive: "Ödənişi hara almaq istəyirsiniz?", min_withdraw: "Min",
+        back: "Geri", enter_info: "Məlumatları daxil et", choose_network: "Ağı seçin", fee: "Komissiya (5%):", final_amount: "Yekun:",
+        confirm_withdraw: "Təsdiqlə və Çıxar", withdraw_history: "Çıxarış Tarixçəsi", history_empty: "Keçmiş boşdur", status_pending: "Gözləyir",
+        profile: "Profil", stats: "Statistika", stat_ads: "İzləndi", stat_earn: "Ümumi Qazanc",
+        msg_limit: "📣 Günlük limitə çatdınız!", msg_copied: "✅ Link kopyalandı!", msg_copy_err: "❌ Kopyalama xətası!",
+        err_method: "Çıxarış üsulunu seçin", err_network: "Zəhmət olmasa ağ seçin", err_bank: "Kart nömrəsi 16 rəqəm olmalıdır",
+        err_phone: "Nömrə 10 rəqəm olmalıdır", err_usdt: "Adres düzgün deyil", err_amount: "Düzgün məbləğ daxil edin",
+        err_min: "Minimum çıxarış", err_bal: "Balansınızda kifayət qədər vəsait yoxdur", success_withdraw: "Çıxarış tələbi göndərildi!",
+        share_text: `🔥 Manat Play ilə pul qazanmaq çox rahatdır!\n\n💡 Reklam izləyərək balansını artır.\n\n👇 İndi qoşul və qazan:\n{link}`
     },
     tr: {
-        loading: "Yükleniyor",
-        settings: "Ayarlar",
-        settings_desc: "Uygulama seçeneklerinizi düzenleyin.",
-        lang: "Dil",
-        invite: "Arkadaşlarını Davet Et",
-        invite_desc: "Arkadaşlarınızı davet ederek Manat Play topluluğunu büyütün.",
-        copy: "Bağlantıyı Kopyala",
-        wp: "WhatsApp ile Paylaş",
-        tg: "Telegram ile Paylaş",
-        
-        tasks: "Görevler",
-        tasks_coming_title: "Yakında!",
-        tasks_coming_desc: "Buraya yeni ve yüksek kazançlı görevler eklenecek. Bizi takipte kalın!",
-        
-        ads_title: "Günlük Reklamlar",
-        ads_desc: "Her reklam izleyişi için <b style='color:var(--accent-primary);' class='reward-text-b'>0.0528 TL</b> kazanın",
-        watched: "İzlenen",
-        max: "Maksimum",
-        progress: "İlerleme",
-        watch_ad: "Reklam İzle",
-        watching: "Bekleniyor...",
-        watching_ad: "İzleniyor...",
-        limit_reached: "Limit Doldu",
-        
-        wallet: "Cüzdan",
-        withdraw_method: "Çekim Yöntemi",
-        where_to_receive: "Ödemeyi nereye almak istiyorsunuz?",
-        min_withdraw: "Min",
-        back: "Geri",
-        enter_info: "Bilgileri girin",
-        choose_network: "Ağı seçin",
-        fee: "Komisyon (5%):",
-        final_amount: "Sonuç:",
-        confirm_withdraw: "Onayla ve Çek",
-        withdraw_history: "Çekim Geçmişi",
-        history_empty: "Geçmiş boş",
-        status_pending: "Bekliyor",
-        
-        profile: "Profil",
-        stats: "İstatistikler",
-        stat_ads: "İzlendi",
-        stat_earn: "Toplam Kazanç",
-        
-        msg_limit: "📣 Günlük limite ulaştınız!",
-        msg_copied: "✅ Referans bağlantısı kopyalandı!",
-        msg_copy_err: "❌ Kopyalama hatası!",
-        err_method: "Çekim yöntemini seçin",
-        err_network: "Lütfen ağ seçin",
-        err_bank: "Kart numarası tam 16 rakam olmalıdır",
-        err_phone: "Numara tam 10 rakam olmalıdır",
-        err_usdt: "Adres geçersiz",
-        err_amount: "Geçerli bir miktar girin",
-        err_min: "Minimum çekim",
-        err_bal: "Yetersiz Bakiye",
-        success_withdraw: "Çekim talebi gönderildi!",
-        ad_reward_text: "🎉 <b>{reward}</b> kazandınız!",
-        
-        share_text: `🔥 Para kazanmak hiç bu kadar kolay olmamıştı. Manat Play ile her şey senin kontrolünde!\n\n💡 Sadece birkaç saniyelik reklamları izleyerek bakiyeni artır. Hiçbir zorluk yok.\n\n👇 Şimdi katıl ve ilk kazancını elde et:\n{link}\n\n📲 Topladığın tutarı rahatça çekebilirsin.\n\n⚡ Manat Play ile kazancını bugünden başlat!`
+        loading: "YÜKLENİYOR", settings: "Ayarlar", settings_desc: "Uygulama seçeneklerinizi düzenleyin.",
+        lang: "Dil", theme: "Tema", balance: "Bakiye",
+        invite: "Arkadaşlarını Davet Et", invite_desc: "Arkadaşlarınızı davet ederek topluluğu büyütün.",
+        copy: "Bağlantıyı Kopyala", wp: "WhatsApp ile Paylaş", tg: "Telegram ile Paylaş",
+        tasks: "Görevler", tasks_coming_title: "Yakında!", tasks_coming_desc: "Buraya yeni görevler eklenecek.",
+        ads_title: "Günlük Reklamlar", ads_desc: "Her reklam için <b style='color:var(--accent);' class='reward-text-b'>0.0528 TL</b> kazanın",
+        watched: "İzlenen", max: "Maksimum", progress: "İlerleme", watch_ad: "Reklam İzle", watching_ad: "İzleniyor...", limit_reached: "Limit Doldu",
+        wallet: "Cüzdan", withdraw_method: "Çekim Yöntemi", where_to_receive: "Ödemeyi nereye almak istiyorsunuz?", min_withdraw: "Min",
+        back: "Geri", enter_info: "Bilgileri girin", choose_network: "Ağı seçin", fee: "Komisyon (5%):", final_amount: "Sonuç:",
+        confirm_withdraw: "Onayla ve Çek", withdraw_history: "Çekim Geçmişi", history_empty: "Geçmiş boş", status_pending: "Bekliyor",
+        profile: "Profil", stats: "İstatistikler", stat_ads: "İzlendi", stat_earn: "Toplam Kazanç",
+        msg_limit: "📣 Günlük limite ulaştınız!", msg_copied: "✅ Bağlantı kopyalandı!", msg_copy_err: "❌ Kopyalama hatası!",
+        err_method: "Çekim yöntemini seçin", err_network: "Lütfen ağ seçin", err_bank: "Kart 16 rakam olmalıdır",
+        err_phone: "Numara 10 rakam olmalıdır", err_usdt: "Adres geçersiz", err_amount: "Geçerli bir miktar girin",
+        err_min: "Minimum çekim", err_bal: "Yetersiz Bakiye", success_withdraw: "Çekim talebi gönderildi!",
+        share_text: `🔥 Manat Play ile para kazanmak çok kolay!\n\n💡 Reklam izleyerek bakiyeni artır.\n\n👇 Şimdi katıl ve kazan:\n{link}`
     }
 };
 
 let adManager = null;
-if (window.Adsgram) {
-    adManager = window.Adsgram.init({ blockId: "int-28369" });
-}
-
-function safeRemove(k){try{localStorage.removeItem(k);}catch(e){}}
+if (window.Adsgram) { adManager = window.Adsgram.init({ blockId: "int-28369" }); }
 
 const USERNAME_KEY = `user_profile_name_mplay_${userRefId}`;
 const PROFILE_PIC_KEY = `user_profile_pic_mplay_${userRefId}`;
 
 if (tgUser) {
-    let fullName = tgUser.first_name;
-    if (tgUser.last_name) { fullName += " " + tgUser.last_name; }
+    let fullName = tgUser.first_name + (tgUser.last_name ? " " + tgUser.last_name : "");
     localStorage.setItem(USERNAME_KEY, fullName);
-    if (tgUser.photo_url) { localStorage.setItem(PROFILE_PIC_KEY, tgUser.photo_url); }
+    if (tgUser.photo_url) localStorage.setItem(PROFILE_PIC_KEY, tgUser.photo_url);
 }
-
 const userRefLink = `https://t.me/mplayappbot?startapp=${userRefId}`;
 
 function fC(val_azn, forceNumberOnly = false) {
@@ -713,37 +553,22 @@ const allMethods = [
     { type: 'usdt', name: 'USDT', logo: 'https://i.postimg.cc/8kmSsGyz/XTVCUSDT-600-(1).png' }
 ];
 
-let type = '';
-let methodName = '';
-let selectedNetwork = '';
+let type = '', methodName = '', selectedNetwork = '';
 
-function renderMethodsList() {
-    const list = document.getElementById('methods');
-    list.innerHTML = '';
+function setTheme(theme) {
+    currentTheme = theme;
+    localStorage.setItem(THEME_KEY, theme);
+    if(theme === 'dark') document.body.classList.add('dark-theme');
+    else document.body.classList.remove('dark-theme');
     
-    let methodsToShow = currentLang === 'tr' ? [allMethods[5]] : allMethods;
-    
-    methodsToShow.forEach(m => {
-        const minText = currentLang === 'tr' ? 'Min: 132 TL' : 'Min: 5 ₼';
-        const dName = (currentLang === 'tr' && m.type === 'bank') ? 'Banka Kartı' : m.name; 
-        
-        list.innerHTML += `
-        <div class="method" data-type="${m.type}" data-name="${dName}">
-          <img src="${m.logo}" alt="${dName}" class="method-logo" draggable="false">
-          <span class="method-text">${dName}</span>
-          <span class="min-withdraw-label">${minText}</span>
-        </div>`;
-    });
-    
-    bindMethodClicks();
+    document.getElementById('btnThemeLight').classList.toggle('active', theme === 'light');
+    document.getElementById('btnThemeDark').classList.toggle('active', theme === 'dark');
 }
 
 function updateTexts() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if(i18n[currentLang][key]) {
-            el.innerHTML = i18n[currentLang][key];
-        }
+        if(i18n[currentLang][key]) el.innerHTML = i18n[currentLang][key];
     });
 
     const loadTextNode = document.getElementById('loadingTextNode');
@@ -757,531 +582,295 @@ function updateTexts() {
     document.querySelectorAll('.reward-text-b').forEach(el => el.innerHTML = fC(REWARD_PER_AD));
     
     const amtInput = document.getElementById('amount');
-    if (amtInput) {
-        amtInput.placeholder = currentLang === 'tr' ? 'Miktar (Min 132 TL)' : 'Məbləğ (Min 5 ₼)';
-    }
+    if (amtInput) amtInput.placeholder = currentLang === 'tr' ? 'Miktar (Min 132 TL)' : 'Məbləğ (Min 5 ₼)';
 
-    renderMethodsList();
-    renderHistory();
-    updateStatsUI();
+    renderMethodsList(); renderHistory(); updateStatsUI();
 }
 
 function setLang(lang) {
     if(currentLang === lang) return;
-    currentLang = lang;
-    safeSet(LANG_KEY, lang);
-    
-    document.getElementById('form').style.display = 'none';
-    document.getElementById('methodsContainer').style.display = 'block';
-    document.getElementById('alert').style.display = 'none';
-    document.getElementById('feeCalcBox').style.display = 'none';
-    type = '';
-    selectedNetwork = '';
-    document.getElementById('details').value = '';
-    document.getElementById('amount').value = '';
-    
-    updateTexts();
-    update();
-}
-
-let serverTimeAtLoad = 0;
-let localTimeAtLoad = 0;
-let timeSynced = false;
-
-async function syncServerTime() {
-    const apis = [
-        async () => { const r = await fetch('https://worldtimeapi.org/api/timezone/Etc/UTC'); const d = await r.json(); return d.unixtime * 1000; },
-        async () => { const r = await fetch('https://yandex.com/time/sync.json?geo=213'); const d = await r.json(); return d.time; }, 
-        async () => { const r = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Etc/UTC'); const d = await r.json(); return new Date(d.dateTime + "Z").getTime(); }
-    ];
-
-    try {
-        const validTimes = await Promise.any(apis.map(api => api().then(t => {
-            if (!t || isNaN(t) || t < 1700000000000) throw new Error('Yalnış Saat Formatı');
-            return t;
-        })));
-        
-        serverTimeAtLoad = validTimes;
-        localTimeAtLoad = performance.now(); 
-        timeSynced = true;
-    } catch (error) {
-        timeSynced = false;
-    }
-}
-
-function getTrueTime() {
-    if (timeSynced) { return serverTimeAtLoad + (performance.now() - localTimeAtLoad); }
-    return Date.now(); 
-}
-
-function getMoscowDateStr(timeMs) {
-    try {
-        return new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(timeMs));
-    } catch(e) {
-        let d = new Date(timeMs);
-        let utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-        let moscowTime = new Date(utc + (3600000 * 3));
-        return moscowTime.getDate() + '/' + (moscowTime.getMonth()+1) + '/' + moscowTime.getFullYear();
-    }
+    currentLang = lang; safeSet(LANG_KEY, lang);
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('methodsView').style.display = 'block';
+    updateTexts(); update();
 }
 
 const BAL_KEY = `bal_mplay_${userRefId}`;
 const COUNT_KEY = `cnt_mplay_${userRefId}`;
 const LAST_RESET_DATE_KEY = `last_date_mplay_${userRefId}`;
-const REWARD_MSG_KEY = `rewardMsgExpire_mplay_${userRefId}`;
 const HISTORY_KEY = `withdraw_history_mplay_${userRefId}`;
 const TOTAL_ADS_KEY = `tot_ads_mplay_${userRefId}`;
 const TOTAL_AD_EARN_KEY = `tot_ad_earn_mplay_${userRefId}`;
 
-const REWARD_PER_AD = 0.002;
-const MAX_ADS_PER_DAY = 50;
-const MIN_WITHDRAW = 5;
-const FEE_PERCENT = 0.05;
+const REWARD_PER_AD = 0.002, MAX_ADS_PER_DAY = 50, MIN_WITHDRAW = 5, FEE_PERCENT = 0.05;
 
+let bal = parseFloat(safeGet(BAL_KEY, 0.00)), cnt = parseInt(safeGet(COUNT_KEY, 0));
 let withdrawHistory = safeGet(HISTORY_KEY, []);
 let totalAdsAllTime = parseInt(safeGet(TOTAL_ADS_KEY, 0));
 let totalAdEarnAllTime = parseFloat(safeGet(TOTAL_AD_EARN_KEY, 0.00));
-let bal = parseFloat(safeGet(BAL_KEY, 0.00)); 
-let cnt = parseInt(safeGet(COUNT_KEY, 0));
-
-let rewardMsgTimeout = null; 
 let isAdRunning = false; 
 
-function checkDailyReset() {
-    let currentMoscowDate = getMoscowDateStr(getTrueTime());
-    let lastSavedDate = localStorage.getItem(LAST_RESET_DATE_KEY);
+function getMoscowDateStr() {
+    try { return new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+    } catch(e) { let d = new Date(); return d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear(); }
+}
 
-    if (lastSavedDate !== currentMoscowDate) {
-        cnt = 0; 
-        safeSet(COUNT_KEY, cnt);
-        localStorage.setItem(LAST_RESET_DATE_KEY, currentMoscowDate); 
+function checkReset() {
+    const td = getMoscowDateStr();
+    if(safeGet(LAST_RESET_DATE_KEY, '') !== td){
+        cnt = 0; safeSet(COUNT_KEY, 0); safeSet(LAST_RESET_DATE_KEY, td);
     }
 }
-
-function loadProfilePic() {
-    const pic = localStorage.getItem(PROFILE_PIC_KEY);
-    const avatar = document.querySelector('.profile-avatar');
-    const img = document.getElementById('profileImage');
-    if (pic) {
-        img.src = pic;
-        avatar.classList.add('has-image');
-    } else {
-        avatar.classList.remove('has-image');
-    }
-}
-
-function loadProfile() {
-    const savedName = localStorage.getItem(USERNAME_KEY);
-    const displayEls = document.querySelectorAll('.displayUsername');
-    displayEls.forEach(el => {
-        el.textContent = savedName ? savedName : 'İstifadəçi';
-    });
-    document.getElementById('displayUserId').textContent = userRefId;
-    loadProfilePic();
-    updateStatsUI();
-}
+checkReset();
 
 function updateStatsUI() {
+    const balAZN = bal.toFixed(3);
+    const balDisplay = currentLang === 'tr' ? (bal * 26.4).toFixed(4).replace(/\.?0+$/, '') : balAZN;
+    document.querySelectorAll('.bal-val').forEach(el => {
+        el.textContent = parseFloat(balDisplay) === 0 ? "0.00" : balDisplay;
+    });
+
+    document.getElementById('adsCount').textContent = cnt;
+    const progressPerc = (cnt / MAX_ADS_PER_DAY) * 100;
+    document.getElementById('progress').style.width = Math.min(progressPerc, 100) + '%';
+    document.getElementById('progressTextSpan').textContent = cnt + '/' + MAX_ADS_PER_DAY;
+    
     document.getElementById('statTotalAds').textContent = totalAdsAllTime;
     document.getElementById('statTotalAdEarn').textContent = fC(totalAdEarnAllTime);
 }
 
-function copyRefLink() {
-    const fallbackCopyTextToClipboard = (text) => {
-        var textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed";
-        document.body.appendChild(textArea);
-        textArea.focus(); textArea.select();
-        try { document.execCommand('copy'); showTaskNotification(i18n[currentLang].msg_copied); } 
-        catch (err) { showTaskNotification(i18n[currentLang].msg_copy_err); }
-        document.body.removeChild(textArea);
-    };
+function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.innerHTML = msg;
+    t.style.background = type === 'success' ? 'var(--success)' : 'var(--danger)';
+    t.classList.add('show');
+    setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
 
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(userRefLink).then(() => {
-            showTaskNotification(i18n[currentLang].msg_copied);
-        }).catch(() => { fallbackCopyTextToClipboard(userRefLink); });
-    } else {
-        fallbackCopyTextToClipboard(userRefLink);
+function showPage(id, btn) {
+    if(id === 'adsPage' && isAdRunning) return;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if(btn) {
+        document.querySelectorAll('.menu-nav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+    
+    if(id === 'profilePage') {
+        const u = localStorage.getItem(USERNAME_KEY) || 'Guest_' + userRefId.slice(-4);
+        const pic = localStorage.getItem(PROFILE_PIC_KEY);
+        document.querySelectorAll('.displayUsername').forEach(e => e.textContent = u);
+        document.getElementById('displayUserId').textContent = userRefId;
+        const av = document.querySelector('.profile-avatar');
+        if(pic) { av.classList.add('has-image'); document.getElementById('profileImage').src = pic; }
+        else { av.classList.remove('has-image'); }
     }
 }
 
+function copyRefLink() {
+    navigator.clipboard.writeText(userRefLink).then(() => { showToast(i18n[currentLang].msg_copied); })
+    .catch(() => { showToast(i18n[currentLang].msg_copy_err, 'error'); });
+}
 function shareWhatsApp() {
-    const msg = i18n[currentLang].share_text.replace('{link}', userRefLink);
-    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(msg), '_blank');
+    let txt = i18n[currentLang].share_text.replace('{link}', userRefLink);
+    window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
 }
-
 function shareAppAction() {
-    const msg = i18n[currentLang].share_text.replace('{link}', userRefLink);
-    window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(msg)}`, '_blank');
+    let txt = i18n[currentLang].share_text.replace('{link}', userRefLink);
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(userRefLink)}&text=${encodeURIComponent(txt)}`, '_blank');
 }
 
-function update(){
-  checkDailyReset();
-
-  const formattedBal = fC(bal, true);
-  document.querySelectorAll('.bal-val').forEach(el => el.textContent = formattedBal);
-
-  document.getElementById('adsCount').textContent=cnt;
-  document.getElementById('progress').style.width=(cnt/MAX_ADS_PER_DAY*100)+'%';
-  const progressTextSpan = document.getElementById('progressTextSpan');
-  if(progressTextSpan) progressTextSpan.textContent = `${cnt}/${MAX_ADS_PER_DAY}`;
-
-  safeSet(BAL_KEY, bal); 
-  safeSet(COUNT_KEY, cnt); 
-  updateStatsUI();
-  
-  checkAndDisplayRewardMsg();
-  restoreAdBtnState();
+function giveAdReward() {
+    bal += REWARD_PER_AD; cnt++; totalAdsAllTime++; totalAdEarnAllTime += REWARD_PER_AD;
+    safeSet(BAL_KEY, bal); safeSet(COUNT_KEY, cnt);
+    safeSet(TOTAL_ADS_KEY, totalAdsAllTime); safeSet(TOTAL_AD_EARN_KEY, totalAdEarnAllTime);
+    updateStatsUI();
 }
 
-function getLogoForType(t) {
-    let m = allMethods.find(x => x.type === t);
-    if(m) return m.logo;
-    return allMethods[0].logo;
+document.getElementById('adBtn').onclick = () => {
+    if(cnt >= MAX_ADS_PER_DAY) {
+        showToast(i18n[currentLang].msg_limit, 'error');
+        return;
+    }
+    const btn = document.getElementById('adBtn');
+    if(isAdRunning) return;
+    isAdRunning = true;
+    const oldText = btn.innerHTML;
+    btn.innerHTML = `<i data-lucide="loader" class="lucide-spin" style="animation: spin 1s linear infinite;"></i> <span style="margin-left:8px;">${i18n[currentLang].watching_ad}</span>`;
+    btn.classList.add('waiting');
+    document.body.style.pointerEvents = 'none';
+
+    if (adManager) {
+        adManager.show().then((res) => {
+            if(res && res.done) giveAdReward();
+            else showToast('Xəta baş verdi', 'error');
+            resetAdBtn();
+        }).catch(() => { resetAdBtn(); });
+    } else {
+        setTimeout(() => { giveAdReward(); resetAdBtn(); }, 1500); // Simulasiya
+    }
+
+    function resetAdBtn() {
+        btn.innerHTML = oldText;
+        btn.classList.remove('waiting');
+        document.body.style.pointerEvents = 'auto';
+        isAdRunning = false; lucide.createIcons();
+    }
+};
+
+function renderMethodsList() {
+    const c = document.getElementById('methods');
+    c.innerHTML = '';
+    const validMethods = currentLang === 'tr' ? allMethods.filter(m => ['usdt'].includes(m.type)) : allMethods;
+    validMethods.forEach(m => {
+        let div = document.createElement('div');
+        div.className = 'method-card';
+        div.innerHTML = `
+            <img class="method-logo" src="${m.logo}">
+            <div class="method-name">${m.name}</div>
+            <div class="method-min">${i18n[currentLang].min_withdraw}: ${fC(MIN_WITHDRAW)}</div>
+        `;
+        div.onclick = () => selectMethod(m.type, m.name);
+        c.appendChild(div);
+    });
+}
+
+function selectMethod(t, n) {
+    type = t; methodName = n; selectedNetwork = '';
+    document.getElementById('methodsView').style.display = 'none';
+    document.getElementById('formContainer').style.display = 'block';
+    
+    document.getElementById('alert').style.display = 'none';
+    document.getElementById('amount').value = ''; document.getElementById('details').value = '';
+    
+    document.getElementById('networkWrapper').style.display = (type === 'usdt') ? 'block' : 'none';
+    
+    let p = "...";
+    if(type === 'm10' || type === 'nar' || type === 'azercell' || type === 'bakcell') {
+        p = currentLang === 'tr' ? "Telefon Numaranız" : "Nömrəniz";
+    } else if(type === 'bank') {
+        p = currentLang === 'tr' ? "16 Haneli Kart Numarası" : "16 rəqəmli Kart Nömrəsi";
+    } else if(type === 'usdt') {
+        p = currentLang === 'tr' ? "Cüzdan Adresiniz" : "Cüzdan Adresiniz";
+    }
+    document.getElementById('details').placeholder = p;
+    calcFee();
+}
+
+document.getElementById('backBtn').onclick = () => {
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('methodsView').style.display = 'block';
+};
+
+document.querySelectorAll('.net-btn').forEach(b => {
+    b.onclick = () => {
+        document.querySelectorAll('.net-btn').forEach(btn => btn.classList.remove('active'));
+        b.classList.add('active');
+        selectedNetwork = b.getAttribute('data-net');
+    };
+});
+if(type === 'usdt') selectedNetwork = 'bep20';
+
+function calcFee() {
+    const amtInput = document.getElementById('amount').value;
+    const box = document.getElementById('feeCalcBox');
+    if(!amtInput || isNaN(amtInput) || amtInput <= 0) { box.style.display = 'none'; return; }
+    
+    const val = parseFloat(amtInput);
+    const inAZN = currentLang === 'tr' ? val / 26.4 : val;
+    
+    let feeAZN = inAZN * FEE_PERCENT;
+    let netAZN = inAZN - feeAZN;
+    
+    box.style.display = 'block';
+    document.getElementById('feeAmount').textContent = fC(feeAZN, true);
+    document.getElementById('receiveAmount').textContent = fC(netAZN, true);
+}
+document.getElementById('amount').addEventListener('input', calcFee);
+
+function logHistory(mName, amtAZN, det, stat = 'pending') {
+    let td = new Date();
+    let pad = (n) => n<10 ? '0'+n : n;
+    let ds = `${pad(td.getDate())}/${pad(td.getMonth()+1)} ${pad(td.getHours())}:${pad(td.getMinutes())}`;
+    withdrawHistory.unshift({ m: mName, date: ds, amount: amtAZN, d: det, status: stat });
+    if(withdrawHistory.length > 30) withdrawHistory.pop();
+    safeSet(HISTORY_KEY, withdrawHistory);
+    renderHistory();
 }
 
 function renderHistory() {
     const list = document.getElementById('historyList');
     list.innerHTML = '';
-    
-    if (withdrawHistory.length === 0) {
+    if(withdrawHistory.length === 0) {
         list.innerHTML = `<div class="history-empty">${i18n[currentLang].history_empty}</div>`;
         return;
     }
-    
-    const reversed = [...withdrawHistory].reverse();
-    reversed.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'history-item';
+    withdrawHistory.forEach(h => {
+        let amtStr = fC(h.amount);
+        let mObj = allMethods.find(m => m.name === h.m) || {};
+        let lg = mObj.logo || 'https://i.postimg.cc/8kmSsGyz/XTVCUSDT-600-(1).png';
+        let stText = i18n[currentLang].status_pending;
         
-        const d = new Date(item.date);
-        const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        const logoSrc = getLogoForType(item.type);
-        
-        div.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:4px;">
-                <div class="history-method"><img src="${logoSrc}" alt="${item.methodName}" draggable="false"> ${item.methodName}</div>
-                <div class="history-date">${dateStr}</div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:flex-end;">
-                <div class="history-amount">${fC(item.amount)}</div>
-                <div class="history-status">${i18n[currentLang].status_pending}</div>
+        list.innerHTML += `
+            <div class="history-item">
+                <div class="history-left">
+                    <div class="history-type"><img src="${lg}"> ${h.m}</div>
+                    <div class="history-date">${h.date}</div>
+                </div>
+                <div class="history-right">
+                    <div class="history-amount">- ${amtStr}</div>
+                    <div class="history-status">${stText}</div>
+                </div>
             </div>
         `;
-        list.appendChild(div);
     });
 }
 
-function showTaskNotification(message) {
-    const notif = document.getElementById('taskNotification');
-    const notifText = document.getElementById('taskNotificationText');
-    if (!notif || !notifText) return;
-    
-    notifText.innerHTML = message;
-    notif.classList.add('notification-show');
-    
-    setTimeout(() => { notif.classList.remove('notification-show'); }, 3000);
-}
-
-const adBtn = document.getElementById('adBtn'), msg = document.getElementById('msg');
-
-function displayRewardMsg(messageHTML) {
-    if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
-    const container = document.getElementById('adRewardNotificationContainer');
-    if (!container) return; 
-
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) { rewardMsgElement.innerHTML = messageHTML; } 
-    else {
-        rewardMsgElement = document.createElement('div');
-        rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg';
-        rewardMsgElement.innerHTML = messageHTML;
-        container.appendChild(rewardMsgElement);
-    }
-    rewardMsgElement.classList.remove('show');
-    safeSet(REWARD_MSG_KEY, { html: messageHTML, expire: Date.now() + 2500 }); 
-    setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
-    rewardMsgTimeout = setTimeout(() => {
-        if (rewardMsgElement) {
-            rewardMsgElement.classList.remove('show');
-            setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
-        }
-        safeRemove(REWARD_MSG_KEY);
-        rewardMsgTimeout = null;
-    }, 2500);
-}
-
-function checkAndDisplayRewardMsg() {
-    const container = document.getElementById('adRewardNotificationContainer');
-    if (!container) return;
-    const currentPage = document.querySelector('.page.active');
-    if (!currentPage || currentPage.id !== 'adsPage') {
-        let rewardMsgElement = document.getElementById('rewardMsg');
-        if (rewardMsgElement) rewardMsgElement.classList.remove('show');
-        return;
-    }
-    const savedMsg = safeGet(REWARD_MSG_KEY, null);
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (savedMsg) {
-        const remainingTime = savedMsg.expire - Date.now();
-        if (remainingTime > 0) {
-            if (!rewardMsgElement) {
-                rewardMsgElement = document.createElement('div');
-                rewardMsgElement.className = 'reward-msg'; rewardMsgElement.id = 'rewardMsg';
-                container.appendChild(rewardMsgElement);
-            }
-            rewardMsgElement.innerHTML = savedMsg.html; rewardMsgElement.classList.remove('show');
-            if (rewardMsgTimeout) clearTimeout(rewardMsgTimeout);
-            setTimeout(() => { rewardMsgElement.classList.add('show'); }, 50);
-            rewardMsgTimeout = setTimeout(() => {
-                 if (rewardMsgElement) {
-                    rewardMsgElement.classList.remove('show');
-                    setTimeout(() => { if(rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400);
-                }
-                safeRemove(REWARD_MSG_KEY); rewardMsgTimeout = null;
-            }, remainingTime);
-        } else { safeRemove(REWARD_MSG_KEY); if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
-    } else { if (rewardMsgElement && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }
-}
-
-function restoreAdBtnState() {
-    const textSpan = adBtn.querySelector('span[data-i18n]');
-    const icon = adBtn.querySelector('i');
-    
-    if (isAdRunning) {
-        adBtn.classList.add('waiting'); adBtn.disabled = true;
-        if(textSpan) { textSpan.setAttribute('data-i18n', 'watching_ad'); textSpan.textContent = i18n[currentLang].watching_ad; }
-        if(icon) { icon.setAttribute('data-lucide', 'loader'); lucide.createIcons(); }
-        return; 
-    }
-
-    if (cnt >= MAX_ADS_PER_DAY) {
-        adBtn.classList.add('waiting'); 
-        adBtn.disabled = true; 
-        if(textSpan) { textSpan.setAttribute('data-i18n', 'limit_reached'); textSpan.textContent = i18n[currentLang].limit_reached; }
-        if(icon) { icon.setAttribute('data-lucide', 'lock'); lucide.createIcons(); }
-        msg.textContent = i18n[currentLang].msg_limit; 
-        checkAndDisplayRewardMsg(); 
-        return; 
-    }
-    
-    adBtn.classList.remove('waiting'); adBtn.disabled = false; 
-    if(textSpan) { textSpan.setAttribute('data-i18n', 'watch_ad'); textSpan.textContent = i18n[currentLang].watch_ad; }
-    if(icon) { icon.setAttribute('data-lucide', 'play-circle'); lucide.createIcons(); }
-    msg.textContent = ''; checkAndDisplayRewardMsg();
-}
-
-function giveAdReward() {
-    bal += REWARD_PER_AD; 
-    cnt++; 
-    totalAdsAllTime++;
-    totalAdEarnAllTime += REWARD_PER_AD;
-
-    safeSet(TOTAL_ADS_KEY, totalAdsAllTime);
-    safeSet(TOTAL_AD_EARN_KEY, totalAdEarnAllTime);
-
-    update(); 
-    displayRewardMsg(i18n[currentLang].ad_reward_text.replace('{reward}', fC(REWARD_PER_AD))); 
-    
-    isAdRunning = false; 
-    restoreAdBtnState();
-}
-
-function resetAdBtnState() {
-    isAdRunning = false;
-    restoreAdBtnState();
-}
-
-adBtn.onclick = async () => {
-    update(); 
-    if (cnt >= MAX_ADS_PER_DAY) { restoreAdBtnState(); return; }
-    if (isAdRunning || adBtn.classList.contains('waiting')) return;
-    
-    isAdRunning = true; 
-    restoreAdBtnState();
-
-    if (rewardMsgTimeout) { clearTimeout(rewardMsgTimeout); rewardMsgTimeout = null; }
-    safeRemove(REWARD_MSG_KEY);
-    let rewardMsgElement = document.getElementById('rewardMsg');
-    if (rewardMsgElement) {
-         rewardMsgElement.classList.remove('show');
-         setTimeout(() => { const container = document.getElementById('adRewardNotificationContainer'); if(container && rewardMsgElement.parentNode === container) rewardMsgElement.remove(); }, 400); 
-    }
-    
-    msg.textContent = '';
-    
-    try {
-        if (!adManager && window.Adsgram) {
-            adManager = window.Adsgram.init({ blockId: "int-28369" });
-        }
-        
-        if (adManager) {
-            adManager.show().then((result) => {
-                giveAdReward();
-            }).catch((error) => {
-                resetAdBtnState();
-            });
-        } else {
-            // Test mode fallback
-            setTimeout(() => {
-                giveAdReward();
-            }, 1000);
-        }
-    } catch (e) {
-        resetAdBtnState();
-    }
-};
-
-function showPage(pageId, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    
-    document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    
-    update();
-}
-
-function bindMethodClicks() {
-    document.querySelectorAll('.method').forEach(btn => {
-        btn.onclick = () => {
-            type = btn.dataset.type;
-            methodName = btn.dataset.name;
-            document.getElementById('methodsContainer').style.display = 'none';
-            document.getElementById('form').style.display = 'block';
-            document.getElementById('details').value = '';
-            document.getElementById('amount').value = '';
-            document.getElementById('alert').style.display = 'none';
-            
-            const detailsInput = document.getElementById('details');
-            const networkWrap = document.getElementById('networkWrapper');
-            
-            if (type === 'usdt') {
-                detailsInput.placeholder = currentLang === 'tr' ? 'USDT Adresi' : 'USDT Adresi';
-                networkWrap.style.display = 'block';
-            } else {
-                detailsInput.placeholder = type === 'bank' || type === 'm10' ? 
-                    (currentLang === 'tr' ? 'Kart Numarası (16 rakam)' : 'Kart nömrəsi (16 rəqəm)') : 
-                    (currentLang === 'tr' ? 'Telefon Numaranız' : 'Nömrəniz');
-                networkWrap.style.display = 'none';
-                selectedNetwork = '';
-                document.querySelectorAll('.network-btn').forEach(b => b.classList.remove('active'));
-            }
-            calculateFee();
-        };
-    });
-}
-
-document.querySelectorAll('.network-btn').forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll('.network-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedNetwork = btn.dataset.net;
-    };
-});
-
-document.getElementById('backBtn').onclick = () => {
-    document.getElementById('form').style.display = 'none';
-    document.getElementById('methodsContainer').style.display = 'block';
-    type = '';
-    selectedNetwork = '';
-    document.getElementById('details').value = '';
-    document.getElementById('amount').value = '';
-    document.getElementById('feeCalcBox').style.display = 'none';
-    document.getElementById('alert').style.display = 'none';
-};
-
-const amtInput = document.getElementById('amount');
-amtInput.addEventListener('input', calculateFee);
-
-function calculateFee() {
-    const val = parseFloat(amtInput.value);
-    const box = document.getElementById('feeCalcBox');
-    
-    if (isNaN(val) || val <= 0) {
-        box.style.display = 'none';
-        return;
-    }
-    
-    box.style.display = 'block';
-    const fee = val * FEE_PERCENT;
-    const receive = val - fee;
-    
-    document.getElementById('feeAmount').textContent = fC(fee, true);
-    document.getElementById('receiveAmount').textContent = fC(receive, true);
-}
-
-function showAlert(text, typeStr) {
-    const alt = document.getElementById('alert');
-    alt.textContent = text;
-    alt.className = 'alert ' + typeStr;
-    alt.style.display = 'block';
-    setTimeout(() => { alt.style.display = 'none'; }, 4000);
+function sAlert(m, t) {
+    const a = document.getElementById('alert');
+    a.innerHTML = m; a.className = 'alert ' + t; a.style.display = 'block';
+    setTimeout(() => { a.style.display = 'none'; }, 4000);
 }
 
 document.getElementById('withdrawBtn').onclick = () => {
-    const details = document.getElementById('details').value.trim();
-    const amt = parseFloat(document.getElementById('amount').value);
+    let valStr = document.getElementById('amount').value;
+    let det = document.getElementById('details').value.replace(/\s+/g,'').trim();
+    if(!type) { sAlert(i18n[currentLang].err_method, 'error'); return; }
+    if(type === 'usdt' && !selectedNetwork) { selectedNetwork = document.querySelector('.net-btn.active').getAttribute('data-net'); }
+    if(type === 'usdt' && !selectedNetwork) { sAlert(i18n[currentLang].err_network, 'error'); return; }
+    if(!valStr || parseFloat(valStr) <= 0) { sAlert(i18n[currentLang].err_amount, 'error'); return; }
     
-    if (!type) return showAlert(i18n[currentLang].err_method, 'error');
-    if (type === 'usdt' && !selectedNetwork) return showAlert(i18n[currentLang].err_network, 'error');
-    if ((type === 'bank' || type === 'm10') && details.length !== 16) return showAlert(i18n[currentLang].err_bank, 'error');
-    if (['nar', 'azercell', 'bakcell'].includes(type) && details.length !== 10) return showAlert(i18n[currentLang].err_phone, 'error');
-    if (type === 'usdt' && details.length < 20) return showAlert(i18n[currentLang].err_usdt, 'error');
-    if (isNaN(amt) || amt <= 0) return showAlert(i18n[currentLang].err_amount, 'error');
-    if (amt < MIN_WITHDRAW) return showAlert(i18n[currentLang].err_min + ` ${fC(MIN_WITHDRAW)}`, 'error');
-    if (amt > bal) return showAlert(i18n[currentLang].err_bal, 'error');
+    let requestedInLang = parseFloat(valStr);
+    let requestedAZN = currentLang === 'tr' ? requestedInLang / 26.4 : requestedInLang;
+    
+    if(requestedAZN < MIN_WITHDRAW) { sAlert(`${i18n[currentLang].err_min}: ${fC(MIN_WITHDRAW)}`, 'error'); return; }
+    if(requestedAZN > bal) { sAlert(i18n[currentLang].err_bal, 'error'); return; }
 
-    bal -= amt;
-    update();
+    if(type === 'bank' && !/^\d{16}$/.test(det)) { sAlert(i18n[currentLang].err_bank, 'error'); return; }
+    if(['m10','nar','azercell','bakcell'].includes(type) && (!/^\d+$/.test(det) || det.length < 9)) { sAlert(i18n[currentLang].err_phone, 'error'); return; }
+    if(type === 'usdt' && det.length < 20) { sAlert(i18n[currentLang].err_usdt, 'error'); return; }
+
+    const btn = document.getElementById('withdrawBtn');
+    btn.classList.add('waiting');
+    btn.innerHTML = `<i data-lucide="loader" class="lucide-spin" style="animation: spin 1s linear infinite;"></i> <span style="margin-left:8px;">...</span>`;
     
-    let methodDisplay = methodName;
-    if(type === 'usdt') methodDisplay += ` (${selectedNetwork.toUpperCase()})`;
-    
-    const newHistory = {
-        id: Date.now(),
-        type: type,
-        methodName: methodDisplay,
-        details: details,
-        amount: amt,
-        date: getTrueTime(),
-        status: 'pending'
-    };
-    
-    withdrawHistory.push(newHistory);
-    safeSet(HISTORY_KEY, withdrawHistory);
-    
-    showAlert(i18n[currentLang].success_withdraw, 'success');
-    
-    // Məlumatları təmizləyirik
-    document.getElementById('details').value = '';
-    document.getElementById('amount').value = '';
-    document.getElementById('feeCalcBox').style.display = 'none';
-    
-    renderHistory();
+    setTimeout(() => {
+        bal -= requestedAZN; safeSet(BAL_KEY, bal);
+        let mN = type === 'usdt' ? `USDT (${selectedNetwork.toUpperCase()})` : methodName;
+        logHistory(mN, requestedAZN, det, 'pending');
+        updateStatsUI();
+        sAlert(i18n[currentLang].success_withdraw, 'success');
+        document.getElementById('amount').value = ''; document.getElementById('details').value = '';
+        calcFee();
+        btn.classList.remove('waiting');
+        btn.innerHTML = `<i data-lucide="arrow-up-right"></i> <span>${i18n[currentLang].confirm_withdraw}</span>`;
+        lucide.createIcons();
+    }, 1200);
 };
 
-// Başlanğıc Tənzimləmələri və Yüklənmə Ekranının gizlədilməsi
-window.addEventListener("DOMContentLoaded", () => {
-    syncServerTime().then(() => {
-        updateTexts();
-        loadProfile();
-        update();
-        renderHistory();
-        
-        // Yüklənmə ekranını animasiya ilə gizlədirik
-        setTimeout(() => {
-            const loader = document.getElementById('loadingScreen');
-            if(loader) {
-                loader.style.opacity = '0';
-                loader.style.visibility = 'hidden';
-                setTimeout(() => loader.style.display = 'none', 600); // 0.6s css transition vaxtı tamamlanır
-            }
-        }, 1000); // İstifadəçi vizualı görməsi üçün 1 saniyəlik minimum gözləmə 
-    });
-});
+function update() { updateStatsUI(); }
+updateTexts();
+update();
 </script>
 </body>
 </html>
